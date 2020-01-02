@@ -1,0 +1,25 @@
+
+{% extends 'main/homepage.html' %}
+
+{% block content %}
+
+{% load bootstrap4 %}
+
+{# Display a form #}
+    <div class='container' style="margin-top:3em;" >
+    <form method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">Valider</button>
+    {% endbuttons %}
+
+    Si vous ne disposez déjà d'un compte, cliquez sur : <a href="/login" target="blank"><strong>Créer un compte</strong></a>.
+</form>
+</div>
+
+
+
+
+
+{% endblock %}
