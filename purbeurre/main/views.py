@@ -45,8 +45,21 @@ def logout_request(request):
 
 
 def login_request(request):
-    form = AuthenticationForm
+    if request.method == 'POST':
+        form = AuthenticationForm(request=request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"Bienvenue {username}, vous êtes connecté!")
+                return redirect('/')
+            else:
+                messages.error(request, "Identifiant ou mot de passe invalide.")
+        else:
+            messages.error(request, "Identifiant ou mot de passe invalide.")
+    form = AuthenticationForm()
     return render(request = request,
-                template_name = "main/login.html",
-                context={"form":form})
-
+                    template_name = "main/login.html",
+                    context={"form":form})
