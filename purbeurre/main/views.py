@@ -8,9 +8,9 @@ from .forms import UserFormWithEmail
 
 def homepage(request):
     test = '5'
-    return render(request = request,
+    return render(request=request,
                   template_name='main/homepage.html',
-                  context = {"tutorials":test})
+                  context={"tutorials": test})
 
 
 def register(request):
@@ -28,14 +28,14 @@ def register(request):
             for msg in form.error_messages:
                 messages.error(request, f"{msg}: {form.error_messages[msg]}")
 
-            return render(request = request,
-                          template_name = "main/register.html",
-                          context={"form":form})
+            return render(request=request,
+                          template_name="main/register.html",
+                          context={"form": form})
 
     form = UserFormWithEmail
-    return render(request = request,
-                template_name = "main/register.html",
-                context={"form":form})
+    return render(request=request,
+                  template_name="main/register.html",
+                  context={"form": form})
 
 
 def logout_request(request):
@@ -53,13 +53,15 @@ def login_request(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.info(request, f"Bienvenue {username}, vous êtes connecté!")
+                messages.info(request,
+                              f"Bienvenue {username},vous êtes connecté!")
                 return redirect('/')
             else:
-                messages.error(request, "Identifiant ou mot de passe invalide.")
+                messages.error(request,
+                               "Identifiant ou mot de passe invalide.")
         else:
             messages.error(request, "Identifiant ou mot de passe invalide.")
     form = AuthenticationForm()
-    return render(request = request,
-                    template_name = "main/login.html",
-                    context={"form":form})
+    return render(request=request,
+                  template_name="main/login.html",
+                  context={"form": form})

@@ -1,16 +1,21 @@
 from django.db import models
 
+
 class Aliment(models.Model):
     name = models.CharField(max_length=200)
-    score = models.CharField(max_length=5)
+    name_fr = models.CharField(max_length=200)
+    date = models.CharField(max_length=100)
+    brands = models.CharField(max_length=100)
+    nutriscore = models.CharField(max_length=5)
     stores = models.CharField(max_length=300)
-    ingredients = models.TextField()    
+    ingredients = models.TextField()
     url = models.URLField()
+    code = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
 
 
-datas = ['product_name', 'nutrition_grade_fr',
-         'stores','brands','created_t','image_thumb_url',
-         'code', 'ingredients',
-         'nutriments', 'image_small_url', 'last_edit_dates_tags',
-         'images','product_name_fr']
-
+# class Farovites(models.Model):      # NOT MIGRATED YET
+#     username = models.CharField(max_length=200)
+#     aliment = models.ManyToManyField(Aliment)
