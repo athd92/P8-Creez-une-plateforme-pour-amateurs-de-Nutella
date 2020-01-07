@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.stdout.write(self.style.SUCCESS('Lancement du programme'))
-        
+
         categories = tqdm(['gateau', 'boissons', 'snacks', 'vegetarien',
                            'bonbons', 'poisson', 'alcool', 'viandes',
                            'desserts', 'pizzas', 'yaourt', 'chips',
@@ -23,7 +23,7 @@ class Command(BaseCommand):
                  'code', 'ingredients',
                  'nutriments', 'image_small_url', 'last_edit_dates_tags',
                  'images', 'product_name_fr']
-        
+
         categories.set_description(' Récupération en cours: ')
 
         for cat in categories:
@@ -55,7 +55,7 @@ class Command(BaseCommand):
 
                 final_list.append((elt['product_name'],
                                    elt['product_name_fr'],
-                                   elt['last_edit_dates_tags'],
+                                   elt['last_edit_dates_tags'][0],
                                    elt['brands'],
                                    elt['nutrition_grade_fr'],
                                    elt['ingredients'],
@@ -63,19 +63,19 @@ class Command(BaseCommand):
                                    elt['stores'],
                                    elt['code']))
 
-                # p = Aliment.object.create(name=elt['product_name'],
-                #                           name_fr=elt['product_name_fr'],
-                #                           date=elt['last_edit_dates_tags'],
-                #                           brands=elt['brands'],                               
-                #                           nutriscore=elt['nutrition_grade_fr'],
-                #                           ingredients=elt['ingredients'],
-                #                           url=elt['url'],
-                #                           stores=elt['stores'],
-                #                           code=elt['code'])
-                # p.save()
+                aliment = Aliment(name=elt['product_name'],
+                                  name_fr=elt['product_name_fr'],
+                                  date=elt['last_edit_dates_tags'],
+                                  brands=elt['brands'],                               
+                                  nutriscore=elt['nutrition_grade_fr'],
+                                  ingredients=elt['ingredients'],
+                                  url=elt['url'],
+                                  stores=elt['stores'],
+                                  code=elt['code'])
+                aliment.save()
 
-            # for i in final_list:
-            #     print('')
-            #     print(i[3])
+            for i in final_list:
+                print('')
+                print(i[2])
 
         self.stdout.write(self.style.SUCCESS('Opération terminée: [OK]'))
