@@ -4,18 +4,23 @@
 {% block content %}
 
 {% load bootstrap4 %}
-
+<header class="masthead">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center justify-content-center text-center">
+     
     {# Display a form #}
         <div class='container' style="padding-left: 15em;padding-right: 15em;margin-top: 3em;" >
-        <form method="post" class="form">
+        <form method="post" class="form" style="color: beige; ">
         {% csrf_token %}
         {% bootstrap_form form %}
         {% buttons %}
             <button type="submit" class="btn btn-primary">Valider</button>
         {% endbuttons %}
+        Si vous disposez déjà d'un compte, cliquez sur : <a href="/login" target="blank"><strong>Me connecter</strong></a>.
+    </form>
+    </div>    
+      </div>
+    </div>
+  </header>
+{% endblock %}
 
-        Si vous disposez déjà d'un compte, cliquez sur : <a href="/login"><strong>Me connecter</strong></a>.
-        </form>
-        </div>
-
-    {% endblock %}
