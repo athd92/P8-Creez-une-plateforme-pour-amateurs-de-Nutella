@@ -1,9 +1,11 @@
 from django.http import HttpResponse
+from django.core.paginator import Paginator
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout, authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserFormWithEmail
+from .models import Aliment
 
 
 def homepage(request):
@@ -22,7 +24,7 @@ def register(request):
             messages.success(request,
                              f'Bienvenue {username}, votre profile est créé!')
             login(request, user)
-            
+
             return redirect("main:homepage")
         else:
             for msg in form.error_messages:
@@ -65,3 +67,14 @@ def login_request(request):
     return render(request=request,
                   template_name="main/login.html",
                   context={"form": form})
+
+
+def products_display(request):
+
+    aliments = Aliment.objects.all()
+    paginator = Paginator(aliments, 6) # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    aliment = paginator.get_page(page)
+    return render(request, 'main/aliments.html',{'aliments': aliment})
+
