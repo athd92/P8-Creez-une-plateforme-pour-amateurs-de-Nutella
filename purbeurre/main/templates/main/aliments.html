@@ -1,0 +1,57 @@
+
+{% extends 'main/homepage.html' %}
+
+{% block content %}
+
+{% load bootstrap4 %}
+<header class="masthead">
+
+<div class="row justify-content-center align-items-center mt-2 " >
+    {% for aliment in aliments %}
+    <div class="card m-3" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{aliment.name|upper}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Marque: {{aliment.brands}}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">Code: {{aliment.code}}</h6>
+          
+          <p class="card-text">Nutriscore: {{aliment.nutriscore}}</p>
+          <a href="{{aliment.url}}" class="card-link">Infos</a>
+          {% if user.is_authenticated %}
+          <a href="#" class="card-link">Ajouter aux favoris</a>
+          {% else %}
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+</div>
+
+<div class="pagination justify-content-center align-items-center" >
+    <span class="step-links">
+        {% if aliments.has_previous %}
+            <a href="?page=1">&laquo; premier</a>
+            <a href="?page={{ aliments.previous_page_number }}">précédent</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ aliments.number }} of {{ aliments.paginator.num_pages }}.
+        </span>
+
+        {% if aliments.has_next %}
+            <a href="?page={{ aliments.next_page_number }}">suivant</a>
+            <a href="?page={{ aliments.paginator.num_pages }}">dernier &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  </header>
+{% endblock %}
