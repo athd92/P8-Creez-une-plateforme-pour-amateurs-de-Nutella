@@ -21,7 +21,8 @@ class Command(BaseCommand):
         datas = ['product_name', 'nutrition_grade_fr',
                  'stores', 'brands','created_t', 'image_thumb_url',
                  'code', 'ingredients',
-                 'nutriments', 'image_small_url', 'last_edit_dates_tags',
+                 'nutriments', 'image_url', 'url',
+                 'last_edit_dates_tags',
                  'images', 'product_name_fr']
 
         categories.set_description(' Récupération en cours: ')
@@ -41,7 +42,7 @@ class Command(BaseCommand):
                 'action': 'process',
                 'json': 1
             }
-
+# https://fr.openfoodfacts.org/cgi/search.pl?tag_0=boissons&tag_contains_0=contains&tagtype_0=categories&tag_1=fr&sort_by=unique_scans_n&page_size=1&action=process&json=1
             r = requests.get("https://fr.openfoodfacts.org/cgi/search.pl?",
                              params=spec)
             r = r.json()
@@ -59,6 +60,7 @@ class Command(BaseCommand):
                                    elt['brands'],
                                    elt['nutrition_grade_fr'],
                                    elt['ingredients'],
+                                   elt['image_url'],
                                    elt['url'],
                                    elt['stores'],
                                    elt['code']))
@@ -69,13 +71,14 @@ class Command(BaseCommand):
                                   brands=elt['brands'],                               
                                   nutriscore=elt['nutrition_grade_fr'],
                                   ingredients=elt['ingredients'],
+                                  image=elt['image_url'],
                                   url=elt['url'],
                                   stores=elt['stores'],
                                   code=elt['code'])
                 aliment.save()
 
-            for i in final_list:
-                print('')
-                print(i[2])
+            # for i in final_list:
+            #     print('')
+            #     print(i[2])
 
         self.stdout.write(self.style.SUCCESS('Opération terminée: [OK]'))

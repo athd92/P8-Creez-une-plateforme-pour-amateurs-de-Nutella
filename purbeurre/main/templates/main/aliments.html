@@ -8,23 +8,37 @@
 
 <div class="row justify-content-center align-items-center mt-2 " >
     {% for aliment in aliments %}
-    <div class="card m-3" style="width: 18rem;">
+    <div class="card m-3" style="width: 23rem; height: auto;">
+        {% if aliment.nutriscore == 'a' %}
+        <div class='nutri' style="width: 40px;border-style: solid; border-color: aliceblue; height: 40px;text-align: center; color:white;background-color: green; border-radius: 50%; margin-left: 95%;margin-top: -5%; position:absolute; padding-top: 6px;">{{aliment.nutriscore|upper}}</div>
+        {% elif aliment.nutriscore == 'b' %}
+        <div class='nutri' style="width: 40px;border-style: solid; border-color: aliceblue; height: 40px;text-align: center; color:white;background-color: #32CD32; border-radius: 50%; margin-left: 95%;margin-top: -5%; position:absolute; padding-top: 6px;">{{aliment.nutriscore|upper}}</div>
+        {% elif aliment.nutriscore == 'c' %}
+        <div class='nutri' style="width: 40px;border-style: solid; border-color: aliceblue; height: 40px;text-align: center; color:white;background-color: #FFD700; border-radius: 50%; margin-left: 95%;margin-top: -5%; position:absolute; padding-top: 6px;">{{aliment.nutriscore|upper}}</div>
+        {% elif aliment.nutriscore == 'd' %}
+        <div class='nutri' style="width: 40px;border-style: solid; border-color: aliceblue; height: 40px;text-align: center; color:white;background-color: #FFA500; border-radius: 50%; margin-left: 95%;margin-top: -5%; position:absolute; padding-top: 6px;">{{aliment.nutriscore|upper}}</div>
+        {% elif aliment.nutriscore == 'e' %}
+        <div class='nutri' style="width: 40px;border-style: solid; border-color: aliceblue; height: 40px;text-align: center; color:white;background-color:  #FF0000; border-radius: 50%; margin-left: 95%;margin-top: -5%; position:absolute; padding-top: 6px;">{{aliment.nutriscore|upper}}</div>
+        {% endif %}
+                
+        
         <div class="card-body">
-          <h5 class="card-title">{{aliment.name|upper}}</h5>
+            <img class="card-img-top mx-auto d-block" src="{{aliment.image}}" alt="Card image cap" style="width: 120px; height: 120px;">
+
+          <h5 class="card-title">{{aliment.name}}</h5>
           <h6 class="card-subtitle mb-2 text-muted">Marque: {{aliment.brands}}</h6>
-          <h6 class="card-subtitle mb-2 text-muted">Code: {{aliment.code}}</h6>
-          
-          <p class="card-text">Nutriscore: {{aliment.nutriscore}}</p>
           <a href="{{aliment.url}}" class="card-link">Infos</a>
           {% if user.is_authenticated %}
           <a href="#" class="card-link">Ajouter aux favoris</a>
           {% else %}
           {% endif %}
-        </div>
+        
+    </div>
       </div>
     {% endfor %}
-</div>
 
+</div>
+<!-- 
 <div class="pagination justify-content-center align-items-center" >
     <span class="step-links">
         {% if aliments.has_previous %}
@@ -41,16 +55,36 @@
             <a href="?page={{ aliments.paginator.num_pages }}">dernier &raquo;</a>
         {% endif %}
     </span>
-</div>
+</div> -->
 
 
 
-
-
-
-
-
-
+{% if aliments.has_other_pages %}
+    <ul class="pagination">
+        {% if aliments.has_previous %}
+            <li class="waves-effect"><a href="?page=
+                    {{ aliments.previous_page_number }}{% if request.GET.aliments %}&aliments={{ request.GET.aliments }}{% endif %}"><i
+                    class="material-icons">chevron_left</i></a></li>
+        {% else %}
+            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+        {% endif %}
+        {% for num in aliments.paginator.page_range %}
+            {% if aliments.number == num %}
+                <li class="active"><a href="#!">{{ num }}</a></li>
+            {% else %}
+                <li class="waves-effect"><a
+                        href="?page={{ num }}{% if request.GET.aliments %}&aliments={{ request.GET.aliments }}{% endif %}">{{ num }}</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if aliments.has_next %}
+            <li class="waves-effect"><a
+                    href="?page={{ aliments.next_page_number }}{% if request.GET.aliments %}&aliments={{ request.GET.aliments }}{% endif %}"><i
+                    class="material-icons">chevron_right</i></a></li>
+        {% else %}
+            <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+        {% endif %}
+    </ul>
+{% endif %}
 
 
   </header>

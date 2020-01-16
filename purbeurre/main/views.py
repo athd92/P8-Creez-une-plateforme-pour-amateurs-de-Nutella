@@ -1,11 +1,13 @@
-from django.http import HttpResponse
-from django.core.paginator import Paginator
+from django.http import HttpResponse, HttpResponseRedirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout, authenticate, login
 from django.shortcuts import render, redirect
+from django.db.models import Q
 from django.contrib import messages
 from .forms import UserFormWithEmail
 from .models import Aliment
+from .form_aliment import FormAliment
 
 
 def homepage(request):
@@ -69,12 +71,45 @@ def login_request(request):
                   context={"form": form})
 
 
-def products_display(request):
+def aliments(request):
+    
+    aliment_list = Aliment.objects.all()
+    query = request.GET.get('aliments')
+    print(query)
+    if query:
+        aliment_list = Aliment.objects.filter(name__startswith=query).distinct()
+        
+    paginator = Paginator(aliment_list, 6) # 6 posts per page
+    page = request.GET.get('page')
 
-    aliments = Aliment.objects.all()
+    try:
+        aliments = paginator.page(page)
+    except PageNotAnInteger:
+        aliments = paginator.page(1)
+    except EmptyPage:
+        aliments = paginator.page(paginator.num_pages)
+
+    context = {
+        'aliments': aliments
+    }
+    return render(request, "main/aliments.html", context)
+
+
+
+    # aliments = Aliment.objects.all()
+    # paginator = Paginator(aliments, 6) # Show 25 contacts per page
+
+    # page = request.GET.get('page')
+    # aliment = paginator.get_page(page)
+    # return render(request, 'main/aliments.html', {'aliments': aliment})
+
+
+def listing(request):
+
+
+    aliments = Aliment.objects.filter(name__startswith='Napolitain')
     paginator = Paginator(aliments, 6) # Show 25 contacts per page
 
     page = request.GET.get('page')
     aliment = paginator.get_page(page)
-    return render(request, 'main/aliments.html',{'aliments': aliment})
-
+    return render(request, 'main/listing.html', {'aliments': aliment})
