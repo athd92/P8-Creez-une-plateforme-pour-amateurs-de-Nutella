@@ -76,10 +76,15 @@ def aliments(request):
     aliment_list = Aliment.objects.all()
     query = request.GET.get('aliments')
     print(query)
+    
     if query:
-        aliment_list = Aliment.objects.filter(name__startswith=query).distinct()
         
-    paginator = Paginator(aliment_list, 6) # 6 posts per page
+        aliment_list = Aliment.objects.filter(
+                                              name__startswith=query,
+                                              ).exclude(nutriscore='non disponible')
+        aliment_count = aliment_list.count()
+
+    paginator = Paginator(aliment_list, 3) # 6 posts per page
     page = request.GET.get('page')
 
     try:
@@ -90,7 +95,8 @@ def aliments(request):
         aliments = paginator.page(paginator.num_pages)
 
     context = {
-        'aliments': aliments
+        'aliments': aliments,
+        'count': aliment_count,
     }
     return render(request, "main/aliments.html", context)
 
