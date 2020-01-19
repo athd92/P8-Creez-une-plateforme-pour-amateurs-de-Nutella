@@ -18,12 +18,11 @@ class Command(BaseCommand):
                            'desserts', 'pizzas', 'yaourt', 'chips',
                            'chocolat'])
 
-        datas = ['product_name', 'nutrition_grade_fr',
-                 'stores', 'brands','created_t', 'image_thumb_url',
-                 'code', 'ingredients',
-                 'nutriments', 'image_url', 'url',
-                 'last_edit_dates_tags',
-                 'images', 'product_name_fr']
+        datas = ['product_name', 'product_name_fr', 'last_edit_dates_tags',
+                 'brands', 'nutrition_grade_fr', 'ingredients', 'image_url',
+                 'url', 'stores', 'quantity', 'packaging',
+                 'ingredients_text_fr', 'manufacturing_places',
+                 'purchase_places', 'code']
 
         categories.set_description(' Récupération en cours: ')
 
@@ -63,6 +62,11 @@ class Command(BaseCommand):
                                    elt['image_url'],
                                    elt['url'],
                                    elt['stores'],
+                                   elt['quantity'],
+                                   elt['packaging'],
+                                   elt['ingredients_text_fr'],
+                                   elt['manufacturing_places'],
+                                   elt['purchase_places'],
                                    elt['code']))
 
                 aliment = Aliment(name=elt['product_name'],
@@ -74,9 +78,13 @@ class Command(BaseCommand):
                                   image=elt['image_url'],
                                   url=elt['url'],
                                   stores=elt['stores'],
+                                  quantity=elt['quantity'],
+                                  packaging=elt['packaging'],
+                                  ingredients_fr=elt['ingredients_text_fr'],
+                                  manufactured_places=elt['manufacturing_places'],
+                                  purchase_places=elt['purchase_places'],
                                   code=elt['code'])
                 aliment.save()
-
             # for i in final_list:
             #     print('')
             #     print(i[2])

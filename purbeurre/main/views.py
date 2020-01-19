@@ -81,7 +81,7 @@ def aliments(request):
         
         aliment_list = Aliment.objects.filter(
                                               name__startswith=query,
-                                              ).exclude(nutriscore='non disponible')
+                                              ).exclude(nutriscore='non disponible').exclude(brands="non disponible")
         aliment_count = aliment_list.count()
 
     paginator = Paginator(aliment_list, 3) # 6 posts per page
@@ -110,12 +110,29 @@ def aliments(request):
     # return render(request, 'main/aliments.html', {'aliments': aliment})
 
 
-def listing(request):
+def account(request):
 
+    return render(request, 'main/account.html')
 
-    aliments = Aliment.objects.filter(name__startswith='Napolitain')
-    paginator = Paginator(aliments, 6) # Show 25 contacts per page
+def infos(request, aliment_id):
+    
+    aliment = Aliment.objects.get(id=aliment_id)
+    # name = aliment.name
+    date = aliment.date
+    date = date[2:12]
+    print(f'DATE {date}')
+    context = {
+        'aliment': aliment,
+        'date': date,
+    }
+    
+    return render(request, 'main/infos.html', context)
 
-    page = request.GET.get('page')
-    aliment = paginator.get_page(page)
-    return render(request, 'main/listing.html', {'aliments': aliment})
+def favorites(request, aliment_id):
+    
+    print("ALIMENT ID")
+    print(aliment_id)
+    context = {
+        "aliment_id" : aliment_id
+    }
+    return render(request, 'main/favorites.html', context)
