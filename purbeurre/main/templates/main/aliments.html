@@ -22,11 +22,14 @@
         {% endif %}
         <div class="card-body" style="text-align: center;">
             <img class="card-img-top mx-auto d-block" src="{{aliment.image}}" alt="Card image cap" style="width: 160px; height: 160px;">
-          <h5 class="card-title" style="margin-top: 20px;">{{aliment.name|slice:":30" }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Marque: {{aliment.brands}}</h6>
-          <a href="{% url 'main:infos' aliment_id=aliment.id %}" class="card-link">Infos</a>
+          <h5 class="card-title" style="margin-top: 20px;">{{aliment.name|slice:":27" }}...</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Marque: {{aliment.brands|slice:":30"}}</h6>
+          <a href="{% url 'main:infos' aliment_id=aliment.id %}" class="card-link"><i class="fa fa-info-circle" style="font-size:18px"></i>
+            Infos</a>
           {% if user.is_authenticated %}
-          <a href="{% url 'main:favorites' aliment_id=aliment.id %}" class="card-link"  style="padding-left: 90px;">Ajouter aux favoris</a>
+          
+          <a href="{% url 'main:favorites' aliment_id=aliment.id %}" class="card-link"  style="padding-left: 90px;"><i class="fa fa-save" style="font-size:26px;"></i>
+            Sauvegarder</a>
           {% else %}
           {% endif %}
     </div>
