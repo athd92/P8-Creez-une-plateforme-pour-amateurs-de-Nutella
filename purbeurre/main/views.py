@@ -75,7 +75,7 @@ def aliments(request):
     
     aliment_list = Aliment.objects.all()
     query = request.GET.get('aliments')
-    
+    query = query.capitalize()
     if query:
         
         aliment_list = Aliment.objects.filter(
