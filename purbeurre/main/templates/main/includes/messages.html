@@ -1,0 +1,20 @@
+
+
+{% block message %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-success " role="alert">
+    {{message}}    
+</div>  
+{% endfor %}
+{% endif %}   
+{% endblock %}
+
+<script>
+window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+    });
+}, 3000);
+</script>
+
