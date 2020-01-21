@@ -1,1 +1,1 @@
-web: gunicorn purbeurre-p8.wsgi
+web: gunicorn purbeurre.purbeurre.wsgi
