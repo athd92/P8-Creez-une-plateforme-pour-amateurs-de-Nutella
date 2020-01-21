@@ -13,4 +13,5 @@ urlpatterns = [
     path('account/', views.account, name="account"),
     path('infos/<int:aliment_id>/', views.infos, name='infos'),
     path('favorites/<int:aliment_id>/', views.favorites, name='favorites'),
+    path('savedaliments/', views.savedaliments, name='savedaliments'),
 ]

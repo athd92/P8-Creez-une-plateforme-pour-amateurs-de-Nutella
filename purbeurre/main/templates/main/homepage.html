@@ -30,35 +30,34 @@
 <body id="page-top">
 
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top " id="mainNav">
-        <div style="margin-left: 5em;">
-            <a class="navbar-brand js-scroll-trigger" href="/">
+            <nav class="navbar navbar-light navbar-expand-lg fixed-top " id="mainNav">
+              <a class="navbar-brand js-scroll-trigger" href="/">
             <img class="img-fluid " src="{% static 'img/logo_pur_beurre.png' %}" alt="" style="width: 20%;">
             Pur Beurre</a>
-        </div>
+            <div class="navbar-toggler" data-toggle="collapse" data-target='#navbarResponsive'>
+              <span class="navbar-toggler-icon"></span>
+            </div>
+       
+
 
           {% if user.is_authenticated %}
           <div class="collapse navbar-collapse mr-5 " id="navbarResponsive" >
-          <ul class="navbar-nav ml-auto my-2 my-lg-0" >
+          <ul class="navbar-nav ml-auto my-2 " >
           <li class="nav-item">
-          <!-- <div class="input-group mb-3">
-            <input type="text" class="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-                <a class="btn btn-primary btn-m js-scroll-trigger" href="#about">Chercher</a>
-            </div>
-            </div> -->
+          <div class="input-group mb-3">
+
             {% block formu %}
             {% include './includes/searchbar.html' %}
             {% endblock %}
           </li>
 
-          <li class="nav-item  mt-1">
+          <li class="nav-item  mt-2">
             <a class="nav-link js-scroll-trigger" href="/account"> Mon compte </a>
           </li>
-          <li class="nav-item  mt-1">
-            <a class="nav-link js-scroll-trigger" href="#about">Mes aliments</a>
+          <li class="nav-item  mt-2">
+            <a class="nav-link js-scroll-trigger" href="/savedaliments">Mes aliments</a>
           </li>
-          <li class="nav-item  mt-1">
+          <li class="nav-item  mt-2">
             <a class="nav-link js-scroll-trigger" href="/logout">Déconnexion</a>
           </li>
           {% else %}

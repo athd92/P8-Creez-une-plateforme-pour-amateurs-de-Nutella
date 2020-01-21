@@ -6,9 +6,9 @@ from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.contrib import messages
 from .forms import UserFormWithEmail
-from .models import Aliment
+from .models import Aliment, Favorite
 from .form_aliment import FormAliment
-
+from django.contrib import messages
 
 def homepage(request):
     test = '5'
@@ -75,13 +75,14 @@ def aliments(request):
     
     aliment_list = Aliment.objects.all()
     query = request.GET.get('aliments')
-    print(query)
     
     if query:
         
         aliment_list = Aliment.objects.filter(
                                               name__startswith=query,
-                                              ).exclude(nutriscore='non disponible').exclude(brands="non disponible")
+                                              ).exclude(
+                                              nutriscore='non disponible',
+                                              ).exclude(brands="non disponible")
         aliment_count = aliment_list.count()
 
     paginator = Paginator(aliment_list, 3) # 6 posts per page
@@ -101,21 +102,13 @@ def aliments(request):
     return render(request, "main/aliments.html", context)
 
 
-
-    # aliments = Aliment.objects.all()
-    # paginator = Paginator(aliments, 6) # Show 25 contacts per page
-
-    # page = request.GET.get('page')
-    # aliment = paginator.get_page(page)
-    # return render(request, 'main/aliments.html', {'aliments': aliment})
-
-
 def account(request):
 
     return render(request, 'main/account.html')
 
+
 def infos(request, aliment_id):
-    
+
     aliment = Aliment.objects.get(id=aliment_id)
     # name = aliment.name
     date = aliment.date
@@ -125,14 +118,38 @@ def infos(request, aliment_id):
         'aliment': aliment,
         'date': date,
     }
-    
+    messages.success(request, f"Voici des informations")
     return render(request, 'main/infos.html', context)
 
+
 def favorites(request, aliment_id):
-    
-    print("ALIMENT ID")
-    print(aliment_id)
+
+    aliment = Aliment.objects.get(id=aliment_id)
+    saved_aliment = Favorite(saved_by=request.user, saved_aliment=aliment)
+    saved_aliment.save()
+    saved = Favorite.objects.count()
     context = {
-        "aliment_id" : aliment_id
+        "aliment" : aliment
     }
-    return render(request, 'main/favorites.html', context)
+    return render(request, 'main/infos.html', context)
+
+
+def savedaliments(request):
+
+    user = request.user
+    aliments = Favorite.objects.filter(saved_by=user.id)
+    flist = []
+    for i in aliments:
+        flist.append(i.saved_aliment.id)
+
+    aliments_list = Aliment.objects.filter(pk__in=flist)
+    paginator = Paginator(aliments_list, 3) # Show 25 contacts per page
+
+    page = request.GET.get('page')
+    aliments = paginator.get_page(page)
+    
+    context = {
+        'aliments': aliments,
+    }
+
+    return render(request, 'main/savedaliments.html', context)
