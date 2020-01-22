@@ -84,7 +84,7 @@ def aliments(request):
                                               nutriscore='non disponible',
                                               ).exclude(brands="non disponible")
         aliment_count = aliment_list.count()
-
+    
     paginator = Paginator(aliment_list, 3) # 6 posts per page
     page = request.GET.get('page')
 
@@ -98,6 +98,7 @@ def aliments(request):
     context = {
         'aliments': aliments,
         'count': aliment_count,
+        'query': query,
     }
     return render(request, "main/aliments.html", context)
 

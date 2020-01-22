@@ -32,7 +32,7 @@
   <!-- Navigation -->
             <nav class="navbar navbar-light navbar-expand-lg fixed-top " id="mainNav">
               <a class="navbar-brand js-scroll-trigger" href="/" style="width: 150px; height: 50px;">
-            <img class="img-fluid " src="{% static 'img/logo_pur_beurre.png' %}" alt="" style="width: 30%;">
+              <img class="img-fluid " src="{% static 'img/logo_pur_beurre.png' %}" alt="" style="width: 30%;">
             Pur Beurre</a>
             <div class="navbar-toggler" data-toggle="collapse" data-target='#navbarResponsive'>
               <span class="navbar-toggler-icon"></span>
@@ -42,8 +42,8 @@
 
           {% if user.is_authenticated %}
           <div class="collapse navbar-collapse mr-5 " id="navbarResponsive" >
-          <ul class="navbar-nav ml-auto my-2 " >
-          <li class="nav-item">
+            <ul class="navbar-nav ml-auto my-2 " >
+            <li class="nav-item">
           <div class="input-group mb-3">
 
             {% block formu %}
