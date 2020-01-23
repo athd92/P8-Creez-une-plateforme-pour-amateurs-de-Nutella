@@ -10,6 +10,8 @@ from .models import Aliment, Favorite
 from .form_aliment import FormAliment
 from django.contrib import messages
 
+
+
 def homepage(request):
     test = '5'
     return render(request=request,
@@ -57,14 +59,12 @@ def login_request(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.info(request,
-                              f"Bienvenue {username},vous êtes connecté!")
+                
                 return redirect('/')
             else:
-                messages.error(request,
-                               "Identifiant ou mot de passe invalide.")
+                pass  # message possible
         else:
-            messages.error(request, "Identifiant ou mot de passe invalide.")
+            pass  # message possible
     form = AuthenticationForm()
     return render(request=request,
                   template_name="main/login.html",
@@ -85,7 +85,7 @@ def aliments(request):
                                               ).exclude(brands="non disponible")
         aliment_count = aliment_list.count()
     
-    paginator = Paginator(aliment_list, 3) # 6 posts per page
+    paginator = Paginator(aliment_list, 6) # 6 posts per page
     page = request.GET.get('page')
 
     try:
@@ -104,8 +104,19 @@ def aliments(request):
 
 
 def account(request):
+    
+    user = request.user
+    aliments = Favorite.objects.filter(saved_by=user.id)
+    
+    flist = []
+    for i in aliments:
+        flist.append(i.saved_aliment.id)
 
-    return render(request, 'main/account.html')
+    aliments_list = Aliment.objects.filter(pk__in=flist)
+    total = aliments_list.count()
+    context = {'total': total}
+
+    return render(request, 'main/account.html', context)
 
 
 def infos(request, aliment_id):
@@ -119,7 +130,7 @@ def infos(request, aliment_id):
         'aliment': aliment,
         'date': date,
     }
-    messages.success(request, f"Voici des informations")
+    
     return render(request, 'main/infos.html', context)
 
 
@@ -129,22 +140,24 @@ def favorites(request, aliment_id):
     saved_aliment = Favorite(saved_by=request.user, saved_aliment=aliment)
     saved_aliment.save()
     saved = Favorite.objects.count()
+    
     context = {
-        "aliment" : aliment
+        "aliment": aliment,
     }
-    return render(request, 'main/infos.html', context)
+    return render(request, 'main/aliments.html', context)
 
 
 def savedaliments(request):
 
     user = request.user
     aliments = Favorite.objects.filter(saved_by=user.id)
+    
     flist = []
     for i in aliments:
         flist.append(i.saved_aliment.id)
 
     aliments_list = Aliment.objects.filter(pk__in=flist)
-    paginator = Paginator(aliments_list, 3) # Show 25 contacts per page
+    paginator = Paginator(aliments_list, 6) # Show 25 contacts per page
 
     page = request.GET.get('page')
     aliments = paginator.get_page(page)

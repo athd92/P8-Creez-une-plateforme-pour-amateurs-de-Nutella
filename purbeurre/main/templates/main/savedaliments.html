@@ -82,7 +82,7 @@
   {% load bootstrap4 %}
   <header class="masthead">
   
-  <div class="row justify-content-center align-items-center " style="margin-top: 10%;" >
+  <div class="row justify-content-center align-items-center " style="margin-top: 1%;" >
       {% for aliment in aliments %}
       <div class="card m-3 flex align-items-stretch" style="width: 23rem; height: 19rem;">
           {% if aliment.nutriscore == 'a' %}
@@ -102,8 +102,9 @@
             <h6 class="card-subtitle mb-2 text-muted">Marque: {{aliment.brands|slice:":30"}}</h6>
             <a href="{% url 'main:infos' aliment_id=aliment.id %}" class="card-link"><i class="fa fa-info-circle" style="font-size:18px"></i>
               Infos</a>
-            {% if user.is_authenticated %}           
-
+            {% if user.is_authenticated %}     <!-- FONCTION DE SUPPRESSION A FINIR-->      
+            <a href="{% url 'main:favorites' aliment_id=aliment.id %}" class="card-link"  style="padding-left: 90px;"><i class="fa fa-trash " style="font-size:26px;"></i>
+              Supprimer</a>
             {% else %}
             {% endif %}
       </div>

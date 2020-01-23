@@ -80,6 +80,8 @@
   {% block content %}
 
   <header class="masthead">
+    {% include 'main/includes/messages.html' %}
+
     <div class="container h-50 text-center">
       <div class="align-items-center text-center" style="margin-top: 70px; opacity: 0.8;">
           <h1 class="text-center text-white font-weight-bold">{{aliment.name}}</h1>
@@ -100,8 +102,7 @@
 
           <h6 class="text-left text-white"><strong>Date de l'information:</strong> {{ date }}</h6>
           <h6 class="text-left text-white"><strong>Marque :</strong> {{ aliment.brands }}</h6>
-          <h6 class="text-left text-white"><strong>Portions :</strong> {{ aliment.quantity }}</h6>
-          
+          <h6 class="text-left text-white"><strong>Portions :</strong> {{ aliment.quantity }}</h6>          
           <h6 class="text-left text-white"><strong>Distributeurs :</strong> {{ aliment.brands }}</h6>
           <h6 class="text-left text-white"><strong>Ingrédients :</strong> {{ aliment.ingredients_fr }}</h6>
           <h6 class="text-left text-white"><strong>Emballage:</strong> {{ aliment.packaging }}</h6>
@@ -110,7 +111,6 @@
           <h6 class="text-left text-white"><strong>Provenance de l'information :</strong> {{ aliment.purchase_places }}</h6>
           <br>
           <h3 class="text-center text-white"><a href="{{aliment.url}}" style="color: burlywood;">Voir la fiche d'OpenFoodFact</a></h3>
-          {% include 'main/includes/messages.html' %}
 
       </div>
     </div>
