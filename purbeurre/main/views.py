@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import logout, authenticate, login
@@ -134,20 +134,48 @@ def infos(request, aliment_id):
     return render(request, 'main/infos.html', context)
 
 
-def favorites(request, aliment_id):
+def save_aliment(request, aliment_id):
 
+    path = request.META.get('HTTP_REFERER')
     aliment = Aliment.objects.get(id=aliment_id)
     saved_aliment = Favorite(saved_by=request.user, saved_aliment=aliment)
     saved_aliment.save()
     saved = Favorite.objects.count()
+    query = aliment.name
+    query = query.split(' ')
+    query = query[0]
+
+    if query:        
+        aliment_list = Aliment.objects.filter(
+                                              name__startswith=query,
+                                              ).exclude(
+                                              nutriscore='non disponible',
+                                              ).exclude(brands="non disponible")
+        aliment_count = aliment_list.count()
     
-    context = {
-        "aliment": aliment,
-    }
-    return render(request, 'main/aliments.html', context)
+    paginator = Paginator(aliment_list, 6) # 6 posts per page
+    page = request.GET.get('page')
+
+    try:
+        aliments = paginator.page(page)
+    except PageNotAnInteger:
+        aliments = paginator.page(1)
+    except EmptyPage:
+        aliments = paginator.page(paginator.num_pages)
+    message = messages.success(request, f'Aliment sauvegardé!')
+
+    return redirect(path)
+
+def delete(request, aliment_id):
+
+    user = request.user
+    aliment = Aliment.objects.filter(id=aliment_id)
+    favorite_aliment = Favorite.objects.filter(saved_aliment__in=aliment,saved_by=user.id )
+    favorite_aliment.delete()
+    return redirect('/saved')
 
 
-def savedaliments(request):
+def saved(request):
 
     user = request.user
     aliments = Favorite.objects.filter(saved_by=user.id)
@@ -166,4 +194,5 @@ def savedaliments(request):
         'aliments': aliments,
     }
 
-    return render(request, 'main/savedaliments.html', context)
+    return render(request, 'main/saved.html', context)
+

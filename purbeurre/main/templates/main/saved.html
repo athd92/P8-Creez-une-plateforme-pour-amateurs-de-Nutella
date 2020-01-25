@@ -57,7 +57,7 @@
   <a class="nav-link js-scroll-trigger" href="/account"> Mon compte </a>
 </li>
 <li class="nav-item  mt-2">
-  <a class="nav-link js-scroll-trigger" href="/savedaliments">Mes aliments</a>
+  <a class="nav-link js-scroll-trigger" href="/saved">Mes aliments</a>
 </li>
 <li class="nav-item  mt-2">
   <a class="nav-link js-scroll-trigger" href="/logout">Déconnexion</a>
@@ -83,6 +83,8 @@
   <header class="masthead">
   
   <div class="row justify-content-center align-items-center " style="margin-top: 1%;" >
+
+    {% if aliments %}
       {% for aliment in aliments %}
       <div class="card m-3 flex align-items-stretch" style="width: 23rem; height: 19rem;">
           {% if aliment.nutriscore == 'a' %}
@@ -103,13 +105,24 @@
             <a href="{% url 'main:infos' aliment_id=aliment.id %}" class="card-link"><i class="fa fa-info-circle" style="font-size:18px"></i>
               Infos</a>
             {% if user.is_authenticated %}     <!-- FONCTION DE SUPPRESSION A FINIR-->      
-            <a href="{% url 'main:favorites' aliment_id=aliment.id %}" class="card-link"  style="padding-left: 90px;"><i class="fa fa-trash " style="font-size:26px;"></i>
+            <a href="{% url 'main:delete' aliment_id=aliment.id %}" class="card-link"  style="padding-left: 90px;"><i class="fa fa-trash " style="font-size:26px;"></i>
               Supprimer</a>
             {% else %}
             {% endif %}
       </div>
         </div>
       {% endfor %}
+      {% endif %}
+
+      {% if not aliments %}
+        <div class="container h-50 text-center">
+          <div class="align-items-center text-center" style="margin-top: 150px;">
+            <h5 class="text-center text-white">VOUS N'AVEZ AUCUN ALIMENT ENREGISTRÉ</h5>   
+            <hr class="divider my-4">
+          </div>
+        </div>
+
+      {% endif%}
   
   </div>
   

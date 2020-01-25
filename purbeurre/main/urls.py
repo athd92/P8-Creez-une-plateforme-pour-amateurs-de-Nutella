@@ -12,6 +12,7 @@ urlpatterns = [
     path('aliments/', views.aliments, name="aliments"),
     path('account/', views.account, name="account"),
     path('infos/<int:aliment_id>/', views.infos, name='infos'),
-    path('favorites/<int:aliment_id>/', views.favorites, name='favorites'),
-    path('savedaliments/', views.savedaliments, name='savedaliments'),
+    path('save_aliment/<int:aliment_id>/', views.save_aliment, name='save_aliment'),
+    path('saved/', views.saved, name='saved'),
+    path('delete/<int:aliment_id>/', views.delete, name="delete")
 ]

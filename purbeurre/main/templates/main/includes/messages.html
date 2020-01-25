@@ -3,12 +3,15 @@
 {% block message %}
 {% if messages %}
 {% for message in messages %}
-<div class="alert alert-success " role="alert">
+<div class="alert alert-success " role="alert" style="z-index: 10;">
     {{message}}    
 </div>  
 {% endfor %}
 {% endif %}   
 {% endblock %}
+
+
+<!-- {% include 'main/includes/messages.html' %} A PLACER POUR AFFICHAGE-->  
 
 <script>
 window.setTimeout(function() {

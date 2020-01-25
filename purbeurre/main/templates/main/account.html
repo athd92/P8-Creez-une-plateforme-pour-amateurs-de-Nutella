@@ -57,7 +57,7 @@
   <a class="nav-link js-scroll-trigger" href="/account"> Mon compte </a>
 </li>
 <li class="nav-item  mt-2">
-  <a class="nav-link js-scroll-trigger" href="/savedaliments">Mes aliments</a>
+  <a class="nav-link js-scroll-trigger" href="/saved">Mes aliments</a>
 </li>
 <li class="nav-item  mt-2">
   <a class="nav-link js-scroll-trigger" href="/logout">Déconnexion</a>
@@ -80,12 +80,12 @@
 
   <header class="masthead">
     <div class="container h-50 text-center">
-      <div class="align-items-center text-center" style="margin-top: 150px;">
+      <div class="align-items-center text-center" style="margin-top: 35px;">
+        <img src="{% static 'img/account-avatar.png' %}" class="rounded mx-auto d-block" style="max-width: 20%;" >
           <h1 class="text-center text-white font-weight-bold">{{ user.get_username }}</h1>
           <hr class="divider my-4">
           <h5 class="text-center text-white">{{ user.email}}</h5>
           <hr class="divider my-4">
-
           <h5 class="text-center text-warning"><strong>Nombre d'aliments enregistrés</strong></h5>
           <h6 class="text-center text-white">{{ total }}</h6>
 
