@@ -11,7 +11,6 @@ from .form_aliment import FormAliment
 from django.contrib import messages
 
 
-
 def homepage(request):
     test = '5'
     return render(request=request,
@@ -46,7 +45,8 @@ def register(request):
 
 def logout_request(request):
     logout(request)
-    messages.info(request, 'Vous êtes déconnecté')
+    messages.success(request, f'Déconnecté')
+
     return redirect("main:homepage")
 
 
@@ -59,7 +59,7 @@ def login_request(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                
+                messages.success(request, f'Bienvenue {user.username}')
                 return redirect('/')
             else:
                 pass  # message possible
@@ -72,20 +72,20 @@ def login_request(request):
 
 
 def aliments(request):
-    
+
     aliment_list = Aliment.objects.all()
     query = request.GET.get('aliments')
     query = query.capitalize()
     if query:
-        
+
         aliment_list = Aliment.objects.filter(
-                                              name__startswith=query,
-                                              ).exclude(
-                                              nutriscore='non disponible',
-                                              ).exclude(brands="non disponible")
+                        name__startswith=query,
+                        ).exclude(
+                        nutriscore='non disponible',
+                        ).exclude(brands="non disponible")
         aliment_count = aliment_list.count()
-    
-    paginator = Paginator(aliment_list, 6) # 6 posts per page
+
+    paginator = Paginator(aliment_list, 6)  # 6 posts per page
     page = request.GET.get('page')
 
     try:
@@ -104,10 +104,10 @@ def aliments(request):
 
 
 def account(request):
-    
+
     user = request.user
     aliments = Favorite.objects.filter(saved_by=user.id)
-    
+
     flist = []
     for i in aliments:
         flist.append(i.saved_aliment.id)
@@ -130,7 +130,7 @@ def infos(request, aliment_id):
         'aliment': aliment,
         'date': date,
     }
-    
+
     return render(request, 'main/infos.html', context)
 
 
@@ -145,15 +145,15 @@ def save_aliment(request, aliment_id):
     query = query.split(' ')
     query = query[0]
 
-    if query:        
+    if query:
         aliment_list = Aliment.objects.filter(
-                                              name__startswith=query,
-                                              ).exclude(
-                                              nutriscore='non disponible',
-                                              ).exclude(brands="non disponible")
+                        name__startswith=query,
+                        ).exclude(
+                        nutriscore='non disponible',
+                        ).exclude(brands="non disponible")
         aliment_count = aliment_list.count()
-    
-    paginator = Paginator(aliment_list, 6) # 6 posts per page
+
+    paginator = Paginator(aliment_list, 6)  # 6 posts per page
     page = request.GET.get('page')
 
     try:
@@ -162,16 +162,20 @@ def save_aliment(request, aliment_id):
         aliments = paginator.page(1)
     except EmptyPage:
         aliments = paginator.page(paginator.num_pages)
-    message = messages.success(request, f'Aliment sauvegardé!')
+    messages.success(request, f'Aliment sauvegardé!')
 
     return redirect(path)
+
 
 def delete(request, aliment_id):
 
     user = request.user
     aliment = Aliment.objects.filter(id=aliment_id)
-    favorite_aliment = Favorite.objects.filter(saved_aliment__in=aliment,saved_by=user.id )
+    favorite_aliment = Favorite.objects.filter(
+                        saved_aliment__in=aliment,
+                        saved_by=user.id)
     favorite_aliment.delete()
+    messages.success(request, f'Aliment supprimé!')
     return redirect('/saved')
 
 
@@ -179,20 +183,19 @@ def saved(request):
 
     user = request.user
     aliments = Favorite.objects.filter(saved_by=user.id)
-    
+
     flist = []
     for i in aliments:
         flist.append(i.saved_aliment.id)
 
     aliments_list = Aliment.objects.filter(pk__in=flist)
-    paginator = Paginator(aliments_list, 6) # Show 25 contacts per page
+    paginator = Paginator(aliments_list, 6)  # Show 25 contacts per page
 
     page = request.GET.get('page')
     aliments = paginator.get_page(page)
-    
+
     context = {
         'aliments': aliments,
     }
 
     return render(request, 'main/saved.html', context)
-

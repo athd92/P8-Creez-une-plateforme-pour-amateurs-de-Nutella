@@ -1,13 +1,9 @@
 
 
 {% block message %}
-{% if messages %}
-{% for message in messages %}
-<div class="alert alert-success " role="alert" style="z-index: 10;">
+<div class="alert alert-success " role="alert" style="z-index: 9999; position: absolute;;">
     {{message}}    
-</div>  
-{% endfor %}
-{% endif %}   
+</div>    
 {% endblock %}
 
 
