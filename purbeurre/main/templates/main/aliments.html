@@ -3,9 +3,21 @@
 {% block content %}
 {% load bootstrap4 %}
 
-<header class="masthead">
+  <!-- About Section -->
+  <section class="page-section bg-primary" id="about">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+          <h2 class="text-white mt-0">Nous avons trouvé {{count}} aliment(s) correspondant(s) à votre recherche</h2>
+          
+        </div>
+      </div>
+    </div>
+  </section>
 
-
+  
+  <section>
+<header class="masthead" style="padding-top:10px">
 <div class="row justify-content-center align-items-center " style="margin-top: 1%;" >
   {% if count != 0 %}
 
@@ -40,19 +52,7 @@
           {% endfor %}
       {% endif %}
 
-      {% if count == 0 %}
-      <div class='row justify-content-center' >
-        <div class="col-12">
-          <div class="card">
-            <div class="card-body">
-              <h5>Aucun résultat pour : {{query}} </h2>
-            </div>
-          </div>            
-      </div>
-        </div>
-      </div>
-      {% endif %}
-
+    
 
 </div>
 
@@ -63,23 +63,23 @@
         {% if aliments.has_previous %}
             <li class="waves-effect"><a href="?page=
                     {{ aliments.previous_page_number }}{% if request.GET.aliments %}&aliments={{ request.GET.aliments }}{% endif %}"><i
-                    class="material-icons"> précédents </i></a></li>
+                    class="material-icons" style="margin-right: 10px;"> précédents </i></a></li>
         {% else %}
-            <li class="disabled"><a href="#!"><i class="material-icons"> précédents</i></a></li>
+            <li class="disabled"><a href="#!"><i class="material-icons" style="margin-right: 10px;"> précédents</i></a></li>
         {% endif %}
-        {{count}}
         {% if aliments.has_next %}
             <li class="waves-effect"><a
                     href="?page={{ aliments.next_page_number }}{% if request.GET.aliments %}&aliments={{ request.GET.aliments }}{% endif %}"><i
-                    class="material-icons">  suivants</i></a></li>
+                    class="material-icons" style="margin-left: 10px;">  suivants</i></a></li>
         {% else %}
-            <li class="disabled"><a href="#!"><i class="material-icons"> suivants</i></a></li>
+            <li class="disabled"><a href="#!"><i class="material-icons" style="margin-left: 10px;> suivants</i></a></li>
         {% endif %}
     </ul>
 {% endif %}
 </div>
+</header>
 
-  </header>
+</section>
 {% endblock %}
 
 
