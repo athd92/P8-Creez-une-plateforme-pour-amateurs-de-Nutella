@@ -8,7 +8,12 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-8 text-center">
-          <h2 class="text-white mt-0">Nous avons trouvé {{count}} aliment(s) correspondant(s) à votre recherche</h2>
+        
+            {% if total != "0" %}
+          <h2 class="text-white mt-0">Nous avons trouvé {{total}} aliment(s) pouvant être des alternatives intéressantes</h2>
+            {% else %}
+          <h2 class="text-white mt-0">Nous n'avons pas trouvé d'alternative crédible</h2>
+            {% endif %}
         </div>
       </div>
     </div>
@@ -42,8 +47,8 @@
             Infos</a>
           {% if user.is_authenticated %}
           
-          <a href="{% url 'main:alternative' aliment_id=aliment.id %}" class="card-link"  style="padding-left: 90px;"><i class="fas fa-exchange-alt"></i>
-            Alternative</a>
+          <a href="{% url 'main:save_aliment' aliment_id=aliment.id %}" class="card-link"  style="padding-left: 90px;"><i class="fas fa-exchange-alt"></i>
+            Sauvegarder</a>
           {% else %}
           {% endif %}
         </div>

@@ -22,7 +22,7 @@ class Command(BaseCommand):
                  'brands', 'nutrition_grade_fr', 'ingredients', 'image_url',
                  'url', 'stores', 'quantity', 'packaging',
                  'ingredients_text_fr', 'manufacturing_places',
-                 'purchase_places', 'code']
+                 'purchase_places', 'categories', 'code']
 
         categories.set_description(' Récupération en cours: ')
 
@@ -67,6 +67,7 @@ class Command(BaseCommand):
                                    elt['ingredients_text_fr'],
                                    elt['manufacturing_places'],
                                    elt['purchase_places'],
+                                   elt['categories'],
                                    elt['code']))
 
                 aliment = Aliment(name=elt['product_name'],
@@ -83,6 +84,7 @@ class Command(BaseCommand):
                                   ingredients_fr=elt['ingredients_text_fr'],
                                   manufactured_places=elt['manufacturing_places'],
                                   purchase_places=elt['purchase_places'],
+                                  categories=elt['categories'],
                                   code=elt['code'])
                 aliment.save()
             # for i in final_list:

@@ -26,8 +26,20 @@
   <link href="{% static 'css/creative.min.css' %}" rel="stylesheet">
 
 </head>
-
 <body id="page-top">
+{% if count !=  %}
+<section class="page-section bg-primary" id="about">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <h2 class="text-white mt-0">Vous avez {{count}} aliment(s) enegistré(s)</h2>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section>
   {% if messages %}
   {% for message in messages %}
 <div class="container">
@@ -94,7 +106,7 @@
   {% load bootstrap4 %}
   <header class="masthead">
   
-  <div class="row justify-content-center align-items-center " style="margin-top: 1%;" >
+  <div class="row justify-content-center align-items-center " style="margin-top: -60px;" >
 
     {% if aliments %}
       {% for aliment in aliments %}
@@ -160,7 +172,7 @@
   </div>
   
     </header>
-
+  </section>
 
 
 

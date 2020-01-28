@@ -12,6 +12,9 @@ from django.contrib import messages
 
 
 def homepage(request):
+    '''
+    This function returns the homepage template
+    '''
     test = '5'
     return render(request=request,
                   template_name='main/homepage.html',
@@ -19,6 +22,9 @@ def homepage(request):
 
 
 def register(request):
+    '''
+    This function returns the register form template
+    '''
     if request.method == "POST":
         form = UserFormWithEmail(request.POST)
         if form.is_valid():
@@ -44,6 +50,9 @@ def register(request):
 
 
 def logout_request(request):
+    '''
+    This function is used by the user to logout
+    '''
     logout(request)
     messages.success(request, f'Déconnecté')
 
@@ -51,6 +60,10 @@ def logout_request(request):
 
 
 def login_request(request):
+    '''
+    This functions is used to get the user logged if
+    the Auth is auth is success
+    '''
     if request.method == 'POST':
         form = AuthenticationForm(request=request, data=request.POST)
         if form.is_valid():
@@ -72,7 +85,9 @@ def login_request(request):
 
 
 def aliments(request):
-
+    '''
+    This function returns the results of the initial search
+    '''
     aliment_list = Aliment.objects.all()
     query = request.GET.get('aliments')
     query = query.capitalize()
@@ -104,7 +119,10 @@ def aliments(request):
 
 
 def account(request):
-
+    '''
+    This function return the account html templates with the users
+    informations
+    '''
     user = request.user
     aliments = Favorite.objects.filter(saved_by=user.id)
 
@@ -120,7 +138,10 @@ def account(request):
 
 
 def infos(request, aliment_id):
-
+    '''
+    This function returns an html template with infos about the
+    selected aliment
+    '''
     aliment = Aliment.objects.get(id=aliment_id)
     # name = aliment.name
     date = aliment.date
@@ -135,7 +156,9 @@ def infos(request, aliment_id):
 
 
 def save_aliment(request, aliment_id):
-
+    '''
+    This view adds the selected aliment to the database
+    '''
     path = request.META.get('HTTP_REFERER')
     aliment = Aliment.objects.get(id=aliment_id)
     saved_aliment = Favorite(saved_by=request.user, saved_aliment=aliment)
@@ -167,6 +190,55 @@ def save_aliment(request, aliment_id):
     return redirect(path)
 
 
+def alternative(request, aliment_id):
+    '''
+    This view renders an html template with alternative products
+    '''
+    path = request.META.get('HTTP_REFERER')
+    aliment = Aliment.objects.get(id=aliment_id)
+    categorie = aliment.categories
+    categorie_list = categorie.split(' ')
+    cat_for_query = categorie_list[0]
+    aliment_list = Aliment.objects.filter(categories__startswith=cat_for_query, nutriscore='a')
+    total = len(aliment_list)
+
+    if total == 0:
+        aliment_list = Aliment.objects.filter(
+            categories__startswith=cat_for_query,
+            nutriscore='b')
+        total = len(aliment_list)
+        if total == 0:
+            aliment_list = Aliment.objects.filter(
+                categories__startswith=cat_for_query,
+                nutriscore='c')
+            total = len(aliment_list)
+        if total == 0:
+            aliment_list = Aliment.objects.filter(
+                categories__startswith=cat_for_query,
+                 nutriscore='d')
+            total = len(aliment_list)
+
+    paginator = Paginator(aliment_list, 6)  # 6 posts per page
+    page = request.GET.get('page')
+
+    try:
+        aliments = paginator.page(page)
+    except PageNotAnInteger:
+        aliments = paginator.page(1)
+    except EmptyPage:
+        aliments = paginator.page(paginator.num_pages)
+
+    context = { 
+        'aliments': aliments,
+        'total': total
+    }
+
+    return render(request, 'main/alternative.html', context)
+
+
+
+
+
 def delete(request, aliment_id):
 
     user = request.user
@@ -183,7 +255,7 @@ def saved(request):
 
     user = request.user
     aliments = Favorite.objects.filter(saved_by=user.id)
-
+    count = len(aliments)
     flist = []
     for i in aliments:
         flist.append(i.saved_aliment.id)
@@ -196,6 +268,7 @@ def saved(request):
 
     context = {
         'aliments': aliments,
+        'count': count,
     }
 
     return render(request, 'main/saved.html', context)

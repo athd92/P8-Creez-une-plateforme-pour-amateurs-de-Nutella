@@ -22,6 +22,7 @@ class Aliment(models.Model):
     ingredients_fr = models.TextField()
     manufactured_places = models.CharField(max_length=1000)
     purchase_places = models.CharField(max_length=500)
+    categories = models.TextField()
     code = models.CharField(max_length=200)
 
     def __repr__(self):
