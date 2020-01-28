@@ -197,6 +197,8 @@ def alternative(request, aliment_id):
     path = request.META.get('HTTP_REFERER')
     aliment = Aliment.objects.get(id=aliment_id)
     categorie = aliment.categories
+    print(aliment.ingredients_fr)
+    
     categorie_list = categorie.split(' ')
     cat_for_query = categorie_list[0]
     aliment_list = Aliment.objects.filter(
