@@ -199,7 +199,9 @@ def alternative(request, aliment_id):
     categorie = aliment.categories
     categorie_list = categorie.split(' ')
     cat_for_query = categorie_list[0]
-    aliment_list = Aliment.objects.filter(categories__startswith=cat_for_query, nutriscore='a')
+    aliment_list = Aliment.objects.filter(
+        categories__startswith=cat_for_query,
+        nutriscore='a')
     total = len(aliment_list)
 
     if total == 0:
@@ -215,7 +217,7 @@ def alternative(request, aliment_id):
         if total == 0:
             aliment_list = Aliment.objects.filter(
                 categories__startswith=cat_for_query,
-                 nutriscore='d')
+                nutriscore='d')
             total = len(aliment_list)
 
     paginator = Paginator(aliment_list, 6)  # 6 posts per page
@@ -228,15 +230,12 @@ def alternative(request, aliment_id):
     except EmptyPage:
         aliments = paginator.page(paginator.num_pages)
 
-    context = { 
+    context = {
         'aliments': aliments,
         'total': total
     }
 
     return render(request, 'main/alternative.html', context)
-
-
-
 
 
 def delete(request, aliment_id):
