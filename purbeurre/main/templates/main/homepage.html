@@ -64,20 +64,20 @@
           </li>
 
           <li class="nav-item  mt-2">
-            <a class="nav-link js-scroll-trigger" href="/account"> Mon compte </a>
+            <a class="nav-link js-scroll-trigger" href="{% url 'main:account' %}"> Mon compte </a>
           </li>
           <li class="nav-item  mt-2">
-            <a class="nav-link js-scroll-trigger" href="/saved">Mes aliments</a>
+            <a class="nav-link js-scroll-trigger" href="{% url 'main:saved' %}">Mes aliments</a>
           </li>
           <li class="nav-item  mt-2">
-            <a class="nav-link js-scroll-trigger" href="/logout">Déconnexion</a>
+            <a class="nav-link js-scroll-trigger" href="{% url 'main:logout' %}">Déconnexion</a>
           </li>
           {% else %}
           <div class="collapse navbar-collapse mr-5" id="navbarResponsive">
             <ul class="navbar-nav ml-auto my-2 my-lg-0">
             <li class="nav-item">
                 
-              <a class="nav-link js-scroll-trigger" href="/login/">
+              <a class="nav-link js-scroll-trigger" href="{% url 'main:login' %}">
               <i class="fa fa-user-circle" aria-hidden="true"></i> Me connecter
             </a>
             </li>            

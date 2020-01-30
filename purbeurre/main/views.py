@@ -15,10 +15,8 @@ def homepage(request):
     '''
     This function returns the homepage template
     '''
-    test = '5'
     return render(request=request,
-                  template_name='main/homepage.html',
-                  context={"tutorials": test})
+                  template_name='main/homepage.html')
 
 
 def register(request):
