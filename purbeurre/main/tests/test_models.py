@@ -3,7 +3,7 @@ from main.models import Aliment, Favorite
 from django.test.client import Client
 from django.contrib.auth.models import User
 
-class TestModels(TestCase):
+class TestAlimentModel(TestCase):
 
     def setUp(self):
         self.aliment = Aliment.objects.create(

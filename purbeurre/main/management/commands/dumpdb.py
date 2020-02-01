@@ -37,11 +37,10 @@ class Command(BaseCommand):
                 'tag_contains_1': 'contains',
                 'tagtype_1': 'lang',
                 'sort_by': 'unique_scans_n',
-                'page_size': 1000,
+                'page_size': 100,
                 'action': 'process',
                 'json': 1
             }
-# https://fr.openfoodfacts.org/cgi/search.pl?tag_0=boissons&tag_contains_0=contains&tagtype_0=categories&tag_1=fr&sort_by=unique_scans_n&page_size=1&action=process&json=1
             r = requests.get("https://fr.openfoodfacts.org/cgi/search.pl?",
                              params=spec)
             r = r.json()
@@ -70,22 +69,23 @@ class Command(BaseCommand):
                                    elt['categories'],
                                    elt['code']))
 
-                aliment = Aliment(name=elt['product_name'],
-                                  name_fr=elt['product_name_fr'],
-                                  date=elt['last_edit_dates_tags'],
-                                  brands=elt['brands'],                               
-                                  nutriscore=elt['nutrition_grade_fr'],
-                                  ingredients=elt['ingredients'],
-                                  image=elt['image_url'],
-                                  url=elt['url'],
-                                  stores=elt['stores'],
-                                  quantity=elt['quantity'],
-                                  packaging=elt['packaging'],
-                                  ingredients_fr=elt['ingredients_text_fr'],
-                                  manufactured_places=elt['manufacturing_places'],
-                                  purchase_places=elt['purchase_places'],
-                                  categories=elt['categories'],
-                                  code=elt['code'])
+                aliment = Aliment(
+                    name=elt['product_name'],
+                    name_fr=elt['product_name_fr'],
+                    date=elt['last_edit_dates_tags'],
+                    brands=elt['brands'],
+                    nutriscore=elt['nutrition_grade_fr'],
+                    ingredients=elt['ingredients'],
+                    image=elt['image_url'],
+                    url=elt['url'],
+                    stores=elt['stores'],
+                    quantity=elt['quantity'],
+                    packaging=elt['packaging'],
+                    ingredients_fr=elt['ingredients_text_fr'],
+                    manufactured_places=elt['manufacturing_places'],
+                    purchase_places=elt['purchase_places'],
+                    categories=elt['categories'],
+                    code=elt['code'])
                 aliment.save()
             # for i in final_list:
             #     print('')

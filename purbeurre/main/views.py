@@ -131,9 +131,10 @@ def account(request):
     aliments_list = Aliment.objects.filter(pk__in=flist)
     total = aliments_list.count()
     context = {'total': total}
-
-    return render(request, 'main/account.html', context)
-
+    if request.user.is_authenticated:
+        return render(request, 'main/account.html', context)
+    else:
+        return render(request, 'main/homepage.html')
 
 def infos(request, aliment_id):
     '''
@@ -193,7 +194,12 @@ def alternative(request, aliment_id):
     This view renders an html template with alternative products
     '''
     path = request.META.get('HTTP_REFERER')
-    aliment = Aliment.objects.get(id=aliment_id)
+
+    try:
+        aliment = Aliment.objects.get(id=aliment_id)
+    except Aliment.DoesNotExist:
+        return redirect('/homepage/')
+
     categorie = aliment.categories
     print(aliment.ingredients_fr)
     
@@ -220,6 +226,7 @@ def alternative(request, aliment_id):
                 nutriscore='d')
             total = len(aliment_list)
 
+
     paginator = Paginator(aliment_list, 6)  # 6 posts per page
     page = request.GET.get('page')
 
@@ -234,20 +241,23 @@ def alternative(request, aliment_id):
         'aliments': aliments,
         'total': total
     }
-
+    
     return render(request, 'main/alternative.html', context)
 
 
 def delete(request, aliment_id):
 
-    user = request.user
-    aliment = Aliment.objects.filter(id=aliment_id)
-    favorite_aliment = Favorite.objects.filter(
-                        saved_aliment__in=aliment,
-                        saved_by=user.id)
-    favorite_aliment.delete()
-    messages.success(request, f'Aliment supprimé!')
-    return redirect('/saved')
+    if request.user.is_authenticated:
+        user = request.user
+        aliment = Aliment.objects.filter(id=aliment_id)
+        favorite_aliment = Favorite.objects.filter(
+                            saved_aliment__in=aliment,
+                            saved_by=user.id)
+        favorite_aliment.delete()
+        messages.success(request, f'Aliment supprimé!')
+        return redirect('/saved')
+    else:
+        return redirect('/saved')
 
 
 def saved(request):
@@ -269,5 +279,7 @@ def saved(request):
         'aliments': aliments,
         'count': count,
     }
-
-    return render(request, 'main/saved.html', context)
+    if user.is_authenticated:
+        return render(request, 'main/saved.html', context)
+    else:
+        return redirect('main:login')
