@@ -23,16 +23,10 @@ class TestAlimentModel(TestCase):
             purchase_places = 'Bordeaux, Paris',
             categories = 'Légumes',
             code = '654f654651651')
+
+    # def test_create_Aliment(self):
         
-        password = 'Password31321+' 
-        my_admin = User.objects.create_superuser('antoine', 'antoine@test.com', password)        
+    #     self.aliment.save()
+    #     aliment_name = Aliment.objects.filter(name='Tomates')
+    #     self.assertEqual(str(aliment_name), self.aliment.name)
         
-        self.aliment.save()
-        self.c = Client()
-        self.c.login(username=my_admin.username, password=password)
-
-
-    def test_create_Aliment(self):
-
-        product = self.aliment
-        self.assertEqual(product.name, 'Tomates')

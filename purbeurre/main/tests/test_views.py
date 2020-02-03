@@ -7,6 +7,7 @@ import json
 
 
 class TestHomePage(TestCase):
+    '''Test of the homepage view'''
 
     def setUp(self):
         self.client = Client()
@@ -22,21 +23,30 @@ class TestHomePage(TestCase):
 
 
 class TestAccount(TestCase):
+    '''Test of the account view'''
 
     def setUp(self):
         
         self.client = Client()
-        self.client.login(username="antoine", password="password1234")
+        self.user = User.objects.create_user('antoine',
+                                             'email@email.com',
+                                             'Password3216854+')
 
     def test_account_is_logged_in(self):
+        '''test access account page if logged in '''
+
+        self.client.login(username="antoine", password="Password3216854+")
         response = self.client.get('/account/')
         self.assertEqual(response.status_code, 200)
 
     def test_account_visitor(self):
+        '''test access account page if not logged in'''
 
         self.client = Client()
-        response = self.client.get(reverse('main:homepage'))
-        self.assertEqual(response.status_code, 200)
+        self.client.login(username="antoine", password="password1234")
+        self.client.logout()
+        response = self.client.get('/account/')
+        self.assertRedirects(response, '/')
 
 
 class TestLogout(TestCase):
@@ -46,16 +56,21 @@ class TestLogout(TestCase):
         self.user = User.objects.create_user('antoine',
                                              'email@email.com',
                                              'Password3216854+')
+
+    def test_logout_redirect_visitor(self):
+        '''test redirect function after logout'''
         self.client.login()
         self.client.logout()
+        response = self.client.get('/logout/')
+        self.assertEqual(response.status_code, 302)
 
-    def test_logout_redirect(self):
-
-        response = self.client.get(reverse('main:homepage'), follow=True)
-        self.assertContains(response,
-                            '<h2 class="mt-0">Colette et Remy</h2>',
-                            html=True)
-        self.assertEqual(response.status_code, 200)
+    def test_logout_view_user_status(self):
+        '''test redirects for visitor logout url'''
+        self.client.login(username="antoine", password="Password3216854+")
+        response = self.client.get('/logout/')
+        self.assertEqual(response.status_code, 302)
+        user = auth.get_user(self.client)
+        self.assertEqual(user.is_authenticated, False)
 
 
 class TestLogin(TestCase):
@@ -65,6 +80,11 @@ class TestLogin(TestCase):
         self.user = User.objects.create_user('antoine',
                                              'email@email.com',
                                              'Password3216854+')
+
+    def test_access_login_page(self):
+
+        response = self.client.get(reverse('main:login'))
+        self.assertEqual(response.status_code, 200)
 
     def test_login_success(self):
 
@@ -77,6 +97,12 @@ class TestLogin(TestCase):
         self.client.login(username='antoine', password='wrongpassword1234')
         user = auth.get_user(self.client)
         self.assertEqual(user.is_authenticated, False)
+
+    def test_redirect_after_login(self):
+
+        self.client.login(username='antoine', password='Password3216854+')
+        response = self.client.get('/login/')
+        self.assertEqual(response.status_code, 302)
 
 
 class TestInfos(TestCase):
@@ -224,20 +250,20 @@ class TestAlternative(TestCase):
             categories='Légumes',
             code='654f654651651')
 
-    def test_get_alternative(self):
+    def test_alternative_view_get(self):
 
         product = self.aliment.id
         response = self.client.get(reverse('main:alternative',
                                    args=(product, )))
         self.assertEqual(response.status_code, 200)
 
-    def test_get_alternative_with_adds(self):
+    def test_alternative_view_get_with_extra(self):
 
         product = self.aliment.id + 1
         response = self.client.get(reverse('main:alternative',
                                            args=(product, )))
         self.assertEqual(response.status_code, 302)
-        
+
 
 class TestDelete(TestCase):
 
@@ -247,6 +273,24 @@ class TestDelete(TestCase):
         self.user = User.objects.create_user('antoine',
                                              'email@email.com',
                                              'Password3216854+')
+        self.aliment = Aliment.objects.create(
+            name='Tomates',
+            name_fr='Tomates cerises',
+            date='2019/01/09',
+            brands='La Conserve',
+            nutriscore='a',
+            ingredients='Tomates, sel, sure, conservateurs',
+            image='https://image-test-p8-url-test.com',
+            url='https://test-p8-url-test.com',
+            stores='Lidl, Auchan, Franprix',
+            quantity='200g',
+            packaging='Conserve',
+            ingredients_fr='Tomates, sel, sucre',
+            manufactured_places='Dijon',
+            purchase_places='Bordeaux, Paris',
+            categories='Légumes',
+            code='654f654651651')
+        self.aliment.save()
 
     def test_delete_logged_user(self):
 
@@ -259,6 +303,13 @@ class TestDelete(TestCase):
         self.client.login(username='antoine', password='Password3216854+')
         self.client.logout()
         response = self.client.get(reverse('main:delete', args=('1')))
+        self.assertEqual(response.status_code, 302)
+
+    def test_delete_aliment(self):
+
+        self.client.login(username='antoine', password='Password3216854+')
+        product = self.aliment.id
+        response = self.client.get(reverse('main:delete', args=(str(product))))
         self.assertEqual(response.status_code, 302)
 
 

@@ -21,3 +21,4 @@ urlpatterns = [
          views.alternative,
          name='alternative'),
 ]
+

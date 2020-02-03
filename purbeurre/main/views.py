@@ -51,35 +51,40 @@ def logout_request(request):
     '''
     This function is used by the user to logout
     '''
-    logout(request)
-    messages.success(request, f'Déconnecté')
-
-    return redirect("main:homepage")
-
+    if request.user.is_authenticated:
+        logout(request)
+        messages.success(request, f'Déconnecté')
+        return redirect("main:homepage")
+    else:
+        return redirect('main:homepage')
 
 def login_request(request):
     '''
     This functions is used to get the user logged if
     the Auth is auth is success
     '''
-    if request.method == 'POST':
-        form = AuthenticationForm(request=request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.success(request, f'Bienvenue {user.username}')
-                return redirect('/')
+    if request.user.is_authenticated:
+        return redirect('/')
+    else:
+
+        if request.method == 'POST':
+            form = AuthenticationForm(request=request, data=request.POST)
+            if form.is_valid():
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    messages.success(request, f'Bienvenue {user.username}')
+                    return redirect('/')
+                else:
+                    pass  # message possible
             else:
                 pass  # message possible
-        else:
-            pass  # message possible
-    form = AuthenticationForm()
-    return render(request=request,
-                  template_name="main/login.html",
-                  context={"form": form})
+        form = AuthenticationForm()
+        return render(request=request,
+                    template_name="main/login.html",
+                    context={"form": form})
 
 
 def aliments(request):
@@ -134,7 +139,8 @@ def account(request):
     if request.user.is_authenticated:
         return render(request, 'main/account.html', context)
     else:
-        return render(request, 'main/homepage.html')
+        return redirect('/')
+
 
 def infos(request, aliment_id):
     '''
@@ -200,9 +206,7 @@ def alternative(request, aliment_id):
     except Aliment.DoesNotExist:
         return redirect('/homepage/')
 
-    categorie = aliment.categories
-    print(aliment.ingredients_fr)
-    
+    categorie = aliment.categories    
     categorie_list = categorie.split(' ')
     cat_for_query = categorie_list[0]
     aliment_list = Aliment.objects.filter(
@@ -283,3 +287,4 @@ def saved(request):
         return render(request, 'main/saved.html', context)
     else:
         return redirect('main:login')
+
