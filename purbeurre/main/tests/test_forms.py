@@ -8,7 +8,7 @@ class TestForms(TestCase):
     def test_form_with_valid_data(self):
         form = UserFormWithEmail(data={
             'username': "antoine",
-            'email':'antoine@email.com',
+            'email': 'antoine@email.com',
             'password1': 'Password5522+',
             'password2': 'Password5522+'
         })
@@ -18,7 +18,7 @@ class TestForms(TestCase):
     def test_form_with_invalid_data(self):
         form = UserFormWithEmail(data={
             'username': "antoine",
-            'email':'antoine@email.com',
+            'email': 'antoine@email.com',
             'password1': '1234421331+',
             'password2': 'Password5522+'
         })
@@ -28,7 +28,7 @@ class TestForms(TestCase):
 
         form = UserFormWithEmail(data={
             'username': "antoine",
-            'email':'',
+            'email': '',
             'password1': '1234421331+',
             'password2': 'Password5522+'
         })
@@ -43,14 +43,19 @@ class TestForms(TestCase):
 
     
 class TestFormAliment(SimpleTestCase):
-    
+    '''test the generic aliment formular'''
+
     def test_form_with_valid_query(self):
         form = FormAliment(data={
             'aliments': 'tomates',
         })
         self.assertTrue(form.is_valid())
+        response = self.client.get('/aliments/')
+        self.assertEqual(response.status_code, 302)
 
     def test_form_with_empty_data(self):
         
         form = FormAliment(data={})
         self.assertTrue(form.is_valid())
+        response = self.client.get('/aliments/')
+        self.assertEqual(response.status_code, 302)

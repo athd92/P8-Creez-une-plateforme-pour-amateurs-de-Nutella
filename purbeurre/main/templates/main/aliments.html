@@ -45,9 +45,10 @@
 
           <a href="{% url 'main:alternative' aliment_id=aliment.id %}" class="card-link" title="Alternative" style="margin-left: 80px;"><i class="fas fa-exchange-alt fa-2x"></i></a>
           <a href="{% url 'main:save_aliment' aliment_id=aliment.id %}" class="card-link" title="Enregistrer"><i class="fas fa-save fa-2x"></i></a>
-          </div>
           {% else %}
           {% endif %}
+        </div>
+
         </div>
         </div>
           {% endfor %}

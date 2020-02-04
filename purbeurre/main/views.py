@@ -58,6 +58,7 @@ def logout_request(request):
     else:
         return redirect('main:homepage')
 
+
 def login_request(request):
     '''
     This functions is used to get the user logged if
@@ -91,11 +92,11 @@ def aliments(request):
     '''
     This function returns the results of the initial search
     '''
+    
     aliment_list = Aliment.objects.all()
     query = request.GET.get('aliments')
-    query = query.capitalize()
     if query:
-
+        query = query.capitalize()
         aliment_list = Aliment.objects.filter(
                         name__startswith=query,
                         ).exclude(
@@ -103,22 +104,24 @@ def aliments(request):
                         ).exclude(brands="non disponible")
         aliment_count = aliment_list.count()
 
-    paginator = Paginator(aliment_list, 6)  # 6 posts per page
-    page = request.GET.get('page')
+        paginator = Paginator(aliment_list, 6)  # 6 posts per page
+        page = request.GET.get('page')
 
-    try:
-        aliments = paginator.page(page)
-    except PageNotAnInteger:
-        aliments = paginator.page(1)
-    except EmptyPage:
-        aliments = paginator.page(paginator.num_pages)
+        try:
+            aliments = paginator.page(page)
+        except PageNotAnInteger:
+            aliments = paginator.page(1)
+        except EmptyPage:
+            aliments = paginator.page(paginator.num_pages)
 
-    context = {
-        'aliments': aliments,
-        'count': aliment_count,
-        'query': query,
-    }
-    return render(request, "main/aliments.html", context)
+        context = {
+            'aliments': aliments,
+            'count': aliment_count,
+            'query': query,
+        }
+        return render(request, "main/aliments.html", context)
+    else:
+        return redirect('/')
 
 
 def account(request):
