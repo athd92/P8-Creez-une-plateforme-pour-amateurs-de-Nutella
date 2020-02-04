@@ -84,15 +84,23 @@ def login_request(request):
                 pass  # message possible
         form = AuthenticationForm()
         return render(request=request,
-                    template_name="main/login.html",
-                    context={"form": form})
+                      template_name="main/login.html",
+                      context={"form": form})
 
 
 def aliments(request):
     '''
     This function returns the results of the initial search
     '''
-    
+    user = request.user
+    aliments = Favorite.objects.filter(saved_by=user.id)
+    count = len(aliments)
+    flist = []
+    for i in aliments:
+        flist.append(i.saved_aliment.id)
+
+    favorites = Aliment.objects.filter(pk__in=flist)
+    count_saved = len(favorites)
     aliment_list = Aliment.objects.all()
     query = request.GET.get('aliments')
     if query:
@@ -101,7 +109,11 @@ def aliments(request):
                         name__startswith=query,
                         ).exclude(
                         nutriscore='non disponible',
-                        ).exclude(brands="non disponible")
+                        ).exclude(brands="non disponible"
+                        ).exclude(
+                        id__in=favorites
+                        )
+
         aliment_count = aliment_list.count()
 
         paginator = Paginator(aliment_list, 6)  # 6 posts per page
@@ -118,6 +130,7 @@ def aliments(request):
             'aliments': aliments,
             'count': aliment_count,
             'query': query,
+            'counted_saved': count_saved,
         }
         return render(request, "main/aliments.html", context)
     else:
@@ -209,7 +222,7 @@ def alternative(request, aliment_id):
     except Aliment.DoesNotExist:
         return redirect('/homepage/')
 
-    categorie = aliment.categories    
+    categorie = aliment.categories
     categorie_list = categorie.split(' ')
     cat_for_query = categorie_list[0]
     aliment_list = Aliment.objects.filter(
@@ -233,7 +246,6 @@ def alternative(request, aliment_id):
                 nutriscore='d')
             total = len(aliment_list)
 
-
     paginator = Paginator(aliment_list, 6)  # 6 posts per page
     page = request.GET.get('page')
 
@@ -248,7 +260,7 @@ def alternative(request, aliment_id):
         'aliments': aliments,
         'total': total
     }
-    
+
     return render(request, 'main/alternative.html', context)
 
 
@@ -290,4 +302,3 @@ def saved(request):
         return render(request, 'main/saved.html', context)
     else:
         return redirect('main:login')
-
