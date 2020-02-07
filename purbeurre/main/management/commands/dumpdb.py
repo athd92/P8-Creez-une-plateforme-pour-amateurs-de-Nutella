@@ -37,7 +37,7 @@ class Command(BaseCommand):
                 'tag_contains_1': 'contains',
                 'tagtype_1': 'lang',
                 'sort_by': 'unique_scans_n',
-                'page_size': 100,
+                'page_size': 200,
                 'action': 'process',
                 'json': 1
             }
