@@ -42,7 +42,7 @@ class TestForms(TestCase):
         self.assertEquals(len(form.errors), 4)
 
     
-class TestFormAliment(SimpleTestCase):
+class TestFormAliment(TestCase):
     '''test the generic aliment formular'''
 
     def test_form_with_valid_query(self):
