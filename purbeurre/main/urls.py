@@ -15,6 +15,7 @@ urlpatterns = [
     path('login/', views.login_request, name="login"),
     path('aliments/', views.aliments, name="aliments"),
     path('account/', views.account, name="account"),
+    path('mentions/', views.mentions, name="mentions"),
     path('infos/<int:aliment_id>/', views.infos, name='infos'),
     path('save_aliment/<int:aliment_id>/',
          views.save_aliment,

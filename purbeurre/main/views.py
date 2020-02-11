@@ -304,3 +304,5 @@ def saved(request):
         return redirect('main:login')
 
 
+def mentions(request):
+    return render(request, 'main/mentions.html')
