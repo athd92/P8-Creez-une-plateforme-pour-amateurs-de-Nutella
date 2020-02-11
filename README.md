@@ -9,3 +9,7 @@ de rechercher un produit alimentaire et de proposer une alternative plus saine p
 
 * Données issues de l'API REST de l'OpenFoodFact
 
+* Possibilité de créer un compte et d'enregistrer des aliments en favoris
+
+
+L'utilisateur a la possibilité de créer un compte et d'enregistrer ses aliments favoris.
