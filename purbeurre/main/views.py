@@ -92,7 +92,20 @@ def aliments(request):
     '''
     This function returns the results of the initial search
     '''
+##########################################################################
+
     user = request.user
+    aliments_saved = Favorite.objects.filter(saved_by=user.id)
+    count = len(aliments_saved)
+    flist = []
+    for i in aliments_saved:
+        flist.append(i.saved_aliment.id)
+
+    fav_aliments = Aliment.objects.filter(pk__in=flist)
+
+
+#######################################################################
+
     aliments = Favorite.objects.filter(saved_by=user.id)
     count = len(aliments)
     flist = []
@@ -109,12 +122,13 @@ def aliments(request):
                         name__startswith=query,
                         ).exclude(
                         nutriscore='non disponible',
-                        ).exclude(brands="non disponible"
                         ).exclude(
-                        id__in=favorites
+                        brands="non disponible"
                         )
 
         aliment_count = aliment_list.count()
+
+        complete_list = zip(fav_aliments, aliment_list)
 
         paginator = Paginator(aliment_list, 6)  # 6 posts per page
         page = request.GET.get('page')
@@ -125,8 +139,9 @@ def aliments(request):
             aliments = paginator.page(1)
         except EmptyPage:
             aliments = paginator.page(paginator.num_pages)
-
+        print(fav_aliments)
         context = {
+            'fav_aliments': fav_aliments,
             'aliments': aliments,
             'count': aliment_count,
             'query': query,
@@ -306,3 +321,20 @@ def saved(request):
 
 def mentions(request):
     return render(request, 'main/mentions.html')
+
+
+def delete_from_main(request, aliment_id):
+
+    path = request.META.get('HTTP_REFERER')
+
+    if request.user.is_authenticated:
+        user = request.user
+        aliment = Aliment.objects.filter(id=aliment_id)
+        favorite_aliment = Favorite.objects.filter(
+                            saved_aliment__in=aliment,
+                            saved_by=user.id)
+        favorite_aliment.delete()
+        messages.success(request, f'Aliment supprimé!')
+        return redirect(path)
+    else:
+        return redirect(path)
