@@ -7,6 +7,7 @@ from ..views import alternative
 
 
 class TestUrl(SimpleTestCase):
+    '''Calss used to test the uls'''
 
     def test_homepage_is_resolved(self):
         url = reverse('main:homepage')

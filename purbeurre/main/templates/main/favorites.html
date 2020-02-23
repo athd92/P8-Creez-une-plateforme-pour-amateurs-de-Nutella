@@ -9,7 +9,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-
   <title>Pur Beurre</title>
   <link rel="icon" type="image/png" href="{% static 'img/logo_pur_beurre-favicon.png' %}" />
   <!-- Font Awesome Icons -->
@@ -28,7 +27,6 @@
 </head>
 
 <body id="page-top">
-
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light fixed-top " id="mainNav">
         <div style="margin-left: 5em;">
@@ -40,13 +38,8 @@
           {% if user.is_authenticated %}
           <div class="collapse navbar-collapse mr-5 " id="navbarResponsive" >
           <ul class="navbar-nav ml-auto my-2 my-lg-0" >
+            
           <li class="nav-item">
-          <!-- <div class="input-group mb-3">
-            <input type="text" class="form-control"  aria-label="Recipient's username" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-                <a class="btn btn-primary btn-m js-scroll-trigger" href="#about">Chercher</a>
-            </div>
-            </div> -->
             {% block formu %}
             {% include './includes/searchbar.html' %}
             {% endblock %}

@@ -79,9 +79,9 @@ def login_request(request):
                     messages.success(request, f'Bienvenue {user.username}')
                     return redirect('/')
                 else:
-                    pass  # message possible
+                    pass  
             else:
-                pass  # message possible
+                pass  
         form = AuthenticationForm()
         return render(request=request,
                       template_name="main/login.html",
@@ -92,8 +92,6 @@ def aliments(request):
     '''
     This function returns the results of the initial search
     '''
-##########################################################################
-
     user = request.user
     aliments_saved = Favorite.objects.filter(saved_by=user.id)
     count = len(aliments_saved)
@@ -102,10 +100,6 @@ def aliments(request):
         flist.append(i.saved_aliment.id)
 
     fav_aliments = Aliment.objects.filter(pk__in=flist)
-
-
-#######################################################################
-
     aliments = Favorite.objects.filter(saved_by=user.id)
     count = len(aliments)
     flist = []
@@ -280,6 +274,7 @@ def alternative(request, aliment_id):
 
 
 def delete(request, aliment_id):
+    '''This view is used to delete a saved aliment'''
 
     if request.user.is_authenticated:
         user = request.user
@@ -288,13 +283,13 @@ def delete(request, aliment_id):
                             saved_aliment__in=aliment,
                             saved_by=user.id)
         favorite_aliment.delete()
-        messages.success(request, f'Aliment supprimé!')
         return redirect('/saved')
     else:
         return redirect('/saved')
 
 
 def saved(request):
+    '''This view is used to a save an aliment'''
 
     user = request.user
     aliments = Favorite.objects.filter(saved_by=user.id)
@@ -320,11 +315,16 @@ def saved(request):
 
 
 def mentions(request):
+    '''This view is used to display the mentions page'''
+
     return render(request, 'main/mentions.html')
 
 
 def delete_from_main(request, aliment_id):
-
+    '''
+    This view is used to delete a saved aliment
+    from the main aliment page
+    '''
     path = request.META.get('HTTP_REFERER')
 
     if request.user.is_authenticated:
@@ -334,7 +334,6 @@ def delete_from_main(request, aliment_id):
                             saved_aliment__in=aliment,
                             saved_by=user.id)
         favorite_aliment.delete()
-        messages.success(request, f'Aliment supprimé!')
         return redirect(path)
     else:
         return redirect(path)

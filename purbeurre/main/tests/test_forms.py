@@ -4,6 +4,7 @@ from main.form_aliment import FormAliment
 
 
 class TestForms(TestCase):
+    '''Calss used to test the form'''
 
     def test_form_with_valid_data(self):
         form = UserFormWithEmail(data={
@@ -35,15 +36,15 @@ class TestForms(TestCase):
         self.assertFalse(form.is_valid())
 
     def test_expense_form_with_empty_data(self):
-        
+
         form = UserFormWithEmail(data={})
 
         self.assertFalse(form.is_valid())
         self.assertEquals(len(form.errors), 4)
 
-    
+
 class TestFormAliment(TestCase):
-    '''test the generic aliment formular'''
+    '''Test the aliment form'''
 
     def test_form_with_valid_query(self):
         form = FormAliment(data={
@@ -54,7 +55,7 @@ class TestFormAliment(TestCase):
         self.assertEqual(response.status_code, 302)
 
     def test_form_with_empty_data(self):
-        
+
         form = FormAliment(data={})
         self.assertTrue(form.is_valid())
         response = self.client.get('/aliments/')

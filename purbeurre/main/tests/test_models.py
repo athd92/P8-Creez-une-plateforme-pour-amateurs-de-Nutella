@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 
 class TestAlimentModel(TestCase):
+    '''Calss used to test the aliments model view'''
 
     def test_valid_Aliment(self):
         

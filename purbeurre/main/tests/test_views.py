@@ -23,7 +23,7 @@ class TestHomePage(TestCase):
 
 
 class TestRegister(TestCase):
-
+    '''Clas to test the register view'''
     def setUp(self):
 
         self.client = Client()
@@ -48,6 +48,7 @@ class TestRegister(TestCase):
 
 
 class TestLogout(TestCase):
+    '''Calss used to test the logout view'''
 
     def setUp(self):
         self.client = Client()
@@ -72,6 +73,7 @@ class TestLogout(TestCase):
 
 
 class TestLogin(TestCase):
+    '''Calss used to test the login view'''
 
     def setUp(self):
         self.client = Client()
@@ -145,7 +147,6 @@ class TestAccount(TestCase):
     '''Test of the account view'''
 
     def setUp(self):
-        
         self.client = Client()
         self.user = User.objects.create_user('antoine',
                                              'email@email.com',
@@ -169,6 +170,7 @@ class TestAccount(TestCase):
 
 
 class TestInfos(TestCase):
+    '''Calss used to test the infos view'''
 
     def setUp(self):
 
@@ -208,6 +210,7 @@ class TestInfos(TestCase):
 
 
 class TestSaveAliment(TestCase):
+    '''Calss used to test the aliment view'''
 
     def setUp(self):
 
@@ -245,6 +248,7 @@ class TestSaveAliment(TestCase):
 
 
 class TestAlternative(TestCase):
+    '''Calss used to test the alternative view'''
 
     def setUp(self):
 
@@ -286,6 +290,7 @@ class TestAlternative(TestCase):
 
 
 class TestDelete(TestCase):
+    '''Calss used to test the delete view'''
 
     def setUp(self):
 
@@ -334,6 +339,7 @@ class TestDelete(TestCase):
 
 
 class TestSaved(TestCase):
+    '''Calss used to test the saved view'''
 
     def setUp(self):
 

@@ -45,13 +45,13 @@
 {% if user.is_authenticated %}
 <div class="collapse navbar-collapse mr-5 " id="navbarResponsive" >
 <ul class="navbar-nav ml-auto my-2 " >
-<li class="nav-item">
-<div class="input-group mb-3">
 
+  <li class="nav-item">
+  <div class="input-group mb-3">
   {% block formu %}
   {% include './includes/searchbar.html' %}
   {% endblock %}
-</li>
+  </li>
 
 <li class="nav-item  mt-2">
   <a class="nav-link js-scroll-trigger" href="/account"> Mon compte </a>
@@ -65,9 +65,8 @@
 {% else %}
 <div class="collapse navbar-collapse mr-5" id="navbarResponsive">
   <ul class="navbar-nav ml-auto my-2 my-lg-0">
-  <li class="nav-item">
-      
-    <a class="nav-link js-scroll-trigger" href="/login/">
+    <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="/login/">
     <i class="fa fa-user-circle" aria-hidden="true"></i> Me connecter
   </a>
   </li>            
@@ -88,7 +87,6 @@
           <hr class="divider my-4">
           <h5 class="text-center text-warning"><strong>Nombre d'aliments enregistrés</strong></h5>
           <h1 class="text-center text-white">{{ total }}</h1>
-
       </div>
     </div>
   </header>
@@ -102,8 +100,7 @@
             <div class="col-sm">
                 <div class="small text-center text-muted">Mentions légales</div>
               </div>
-              <div class="col-sm">
-                
+              <div class="col-sm">         
               </div>
               <div class="col-sm">
                 <div class="small text-center text-muted">Contact</div>
@@ -125,5 +122,4 @@
   <script src="{% static 'js/creative.min.js'%}"></script>
 
 </body>
-
 </html>

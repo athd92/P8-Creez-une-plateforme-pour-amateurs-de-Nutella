@@ -87,8 +87,4 @@ class Command(BaseCommand):
                     categories=elt['categories'],
                     code=elt['code'])
                 aliment.save()
-            # for i in final_list:
-            #     print('')
-            #     print(i[2])
-
         self.stdout.write(self.style.SUCCESS('Opération terminée: [OK]'))

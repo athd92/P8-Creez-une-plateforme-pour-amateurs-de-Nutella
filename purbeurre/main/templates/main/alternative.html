@@ -8,7 +8,6 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-8 text-center">
-        
             {% if total != "0" %}
           <h2 class="text-white mt-0">Nous avons trouvé {{total}} aliment(s) pouvant être des alternatives intéressantes</h2>
             {% else %}
@@ -18,13 +17,10 @@
       </div>
     </div>
   </section>
-
-  
   <section>
 <header class="masthead" style="padding-top:10px">
 <div class="row justify-content-center align-items-center " style="margin-top: 1%;" >
   {% if count != 0 %}
-
         {% for aliment in aliments %}
         <div class="card m-3 flex align-items-stretch" style="width: 23rem; height: 19rem;">
         {% if aliment.nutriscore == 'a' %}
@@ -39,14 +35,12 @@
         <div class='nutri' style="width: 40px;border-style: solid; border-color: aliceblue; height: 40px;text-align: center; color:white;background-color:  #FF0000; border-radius: 50%; margin-left: 95%;margin-top: -5%; position:absolute; padding-top: 6px;">{{aliment.nutriscore|upper}}</div>
         {% endif %}
         <div class="card-body" style="text-align: center;">
-           
             <img class="card-img-top mx-auto d-block" src="{{aliment.image}}" alt="Card image cap" style="width: 160px; height: 160px;">
           <h5 class="card-title" style="margin-top: 20px;">{{aliment.name|slice:":27" }}...</h5>
           <h6 class="card-subtitle mb-2 text-muted">Marque: {{aliment.brands|slice:":30"}}</h6>
           <a href="{% url 'main:infos' aliment_id=aliment.id %}" class="card-link"><i class="fa fa-info-circle" style="font-size:18px"></i>
             Infos</a>
           {% if user.is_authenticated %}
-          
           <a href="{% url 'main:save_aliment' aliment_id=aliment.id %}" class="card-link"  style="padding-left: 90px;"><i class="fas fa-save fa-2x"></i>
             Sauvegarder</a>
           {% else %}
@@ -55,9 +49,6 @@
         </div>
           {% endfor %}
       {% endif %}
-
-    
-
 </div>
 
 
@@ -82,7 +73,6 @@
 {% endif %}
 </div>
 </header>
-
 </section>
 {% endblock %}
 

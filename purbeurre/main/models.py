@@ -39,7 +39,7 @@ class Favorite(models.Model):
     """
     saved_by = models.ForeignKey(User, on_delete=models.CASCADE)
     saved_aliment = models.ForeignKey(Aliment, on_delete=models.CASCADE)
-    
+
     def __str__(self):
-        
+
         return f'{self.saved_by} -- {self.saved_aliment}'
