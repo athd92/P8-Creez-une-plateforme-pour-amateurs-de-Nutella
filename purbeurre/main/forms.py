@@ -9,7 +9,7 @@ class UserFormWithEmail(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(UserFormWithEmail, self).__init__(*args, **kwargs)
 
-        for fieldname in ['username', 'email', 'password1', 'password2']:
+        for fieldname in ["username", "email", "password1", "password2"]:
             self.fields[fieldname].help_text = None
 
     def save(self, commit=True):

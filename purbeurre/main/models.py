@@ -8,6 +8,7 @@ class Aliment(models.Model):
     fetched from the REST API of the
     OpenFoodFact project
     """
+
     name = models.CharField(max_length=200)
     name_fr = models.CharField(max_length=200)
     date = models.TextField(max_length=100)
@@ -37,9 +38,10 @@ class Favorite(models.Model):
     This class is used to associate the aliments saved
     by a specific User
     """
+
     saved_by = models.ForeignKey(User, on_delete=models.CASCADE)
     saved_aliment = models.ForeignKey(Aliment, on_delete=models.CASCADE)
 
     def __str__(self):
 
-        return f'{self.saved_by} -- {self.saved_aliment}'
+        return f"{self.saved_by} -- {self.saved_aliment}"
