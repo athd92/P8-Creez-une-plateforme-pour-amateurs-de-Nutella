@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '+$*0d$fzb^tg#l_v^lxa)$l*di6@lb*369+!==h!1@qmge7uc+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -78,17 +78,16 @@ WSGI_APPLICATION = 'purbeurre.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
+DATDATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        # 'PASSWORD': 'password1234',
-        'HOST': 'db',
-        'PORT': '5432',
+        'NAME': 'purbeurredb',
+        'USER': 'guest',
+        'PASSWORD': 'password1234',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
-
 
 
 # Password validation
