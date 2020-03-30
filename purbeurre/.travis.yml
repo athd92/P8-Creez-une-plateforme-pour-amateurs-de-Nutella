@@ -1,0 +1,12 @@
+language: python
+python:
+      - '3.6'
+before_script:
+      - pip install -r purbeurre/requirements.txt
+env: DJANGO_SETTINGS_MODULE="purbeurre.purbeurre.settings"
+
+services:
+      - postgresql
+
+script:
+      - python3 /manage.py test
