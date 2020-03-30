@@ -3,7 +3,7 @@ python:
   - '3.6'
 
 before_script:
-  - pip install -r requirements.txt
+  - pip install -r purbeurre/requirements.txt
 
 branches:
   only:
@@ -15,4 +15,4 @@ services:
   - postgresql
 
 script:
-  - ./manage.py test
+  - python3 purbeurre/manage.py test
