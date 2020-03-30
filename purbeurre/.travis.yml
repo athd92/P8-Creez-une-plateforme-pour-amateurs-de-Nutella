@@ -3,7 +3,7 @@ python:
   - '3.6'
 
 before_script:
-  - pip install -r purbeurre/requirements.txt
+  - pip install -r ../requirements.txt
 
 branches:
   only:
