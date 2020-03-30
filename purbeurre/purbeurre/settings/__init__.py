@@ -80,15 +80,25 @@ WSGI_APPLICATION = 'purbeurre.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.postgresql',
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',        
-        'NAME': 'purbeurredb',
-        'USER': 'guest',
-        'PASSWORD': 'password1234',
-        'HOST': 'localhost',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
         'PORT': '5432',
     }
 }
+# DATABASES = {
+#     'default': {
+#         # 'ENGINE': 'django.db.backends.postgresql',
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',        
+#         'NAME': 'purbeurredb',
+#         'USER': '',
+#         'PASSWORD': '',
+#         'HOST': '',
+#         'PORT': '5432',
+#     }
+# }
 
 
 
