@@ -88,18 +88,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-# DATABASES = {
-#     'default': {
-#         # 'ENGINE': 'django.db.backends.postgresql',
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',        
-#         'NAME': 'purbeurredb',
-#         'USER': '',
-#         'PASSWORD': '',
-#         'HOST': '',
-#         'PORT': '5432',
-#     }
-# }
-
 
 
 # Password validation
