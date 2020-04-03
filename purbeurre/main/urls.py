@@ -23,4 +23,6 @@ urlpatterns = [
     path("saved/", views.saved, name="saved"),
     path("delete/<int:aliment_id>/", views.delete, name="delete"),
     path("alternative/<int:aliment_id>", views.alternative, name="alternative"),
+    path('sentry-debug/', views.trigger_error, name="trigger_error"),
+
 ]
