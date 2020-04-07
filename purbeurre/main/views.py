@@ -15,6 +15,7 @@ def homepage(request):
     """
     This function returns the homepage template
     """
+
     return render(request=request, template_name="main/homepage.html")
 
 
