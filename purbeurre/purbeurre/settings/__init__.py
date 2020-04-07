@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'bootstrap4',
     'tinymce',
     'purbeurre',
-    'django_crontab',
 ]
 
 
@@ -137,10 +136,4 @@ USE_TZ = True
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-
-CRONTAB_LOCK_JOBS = True
-CRONJOBS = [
-    ('30 13 * * TUE', 'main.cron.my_scheduled_job')
-    # ('59 23 * * SAT', 'main.cron.my_scheduled_job')
-]
 
