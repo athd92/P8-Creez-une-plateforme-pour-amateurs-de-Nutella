@@ -9,7 +9,7 @@ branches:
   only:
     - travisbranch
 
-env: DJANGO_SETTINGS_MODULE="purbeurre.settings"
+env: DJANGO_SETTINGS_MODULE="purbeurre.settings.travis"
 
 services:
   - postgresql
