@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'purbeurre.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '',
+        'NAME': 'purbeurre',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
